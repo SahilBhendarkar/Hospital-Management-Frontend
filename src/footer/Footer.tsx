@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-semibold mb-4">Contact Details</h4>
 
             <p className="text-sm mb-3">
-              Morabhagal, Rander Road, Surat - 395009.
+              Sawangi Meghe, Wardha – 442001.
             </p>
 
             <div className="text-sm space-y-1">
@@ -105,10 +105,10 @@ const Footer: React.FC = () => {
             </form>
 
             <div className="mt-5 text-xs leading-relaxed">
-              Legal business name – ADAJAN HEALTH CARE LIMITED <br />
-              Address – Morabhagal Circle, Surat – 395009 <br />
+              Legal business name – MEGHE GROUP<br />
+              Address – Sawangi Meghe, Wardha – 442001 <br />
               Business phone – 79846 17050 <br />
-              Website – https://lifelinesurat.com <br />
+              Website – https://hospital.com <br />
               GSTIN – 24AALCA7858G1ZD
             </div>
           </div>

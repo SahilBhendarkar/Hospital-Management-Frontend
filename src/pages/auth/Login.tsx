@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { motion } from "framer-motion";
+
+const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+};
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
@@ -14,12 +21,13 @@ const Login: React.FC = () => {
 
         if (email && password) {
             console.log("Logging in with:", { email, password });
-            navigate("/dashboard"); 
+            navigate("/dashboard");
         }
     };
 
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <motion.div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10">
                     <div className="text-center">
@@ -94,12 +102,15 @@ const Login: React.FC = () => {
                             </div>
                         </div>
 
-                        <button
+                        <motion.button
                             type="submit"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ type: "spring", stiffness: 300 }}
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200"
                         >
                             Sign In
-                        </button>
+                        </motion.button>
                     </form>
 
                     <div className="mt-6 text-center text-xs text-gray-500">
@@ -107,7 +118,7 @@ const Login: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

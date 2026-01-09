@@ -1,120 +1,132 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 
 interface LoginModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+const backdrop = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+};
 
+const modal = {
+    hidden: { opacity: 0, scale: 0.95, y: 30 },
+    visible: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.95, y: 30 },
+};
+
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (email && password) {
             console.log("Logging in with:", { email, password });
+
+            localStorage.setItem("isLoggedIn", "true");
+            onClose();
             navigate("/dashboard");
-            onClose(); 
         }
     };
 
-    if (!isOpen) return null;
+
 
     return (
-        <>
-            <div
-                className="fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm"
-                onClick={onClose}
-            />
-
-            <div className="fixed inset-0 z-50 flex items-center justify-center px-4 overflow-y-auto">
-                <div
-                    className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 sm:p-10 relative animate-in fade-in zoom-in duration-300"
-                    onClick={(e) => e.stopPropagation()} 
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div
+                    variants={backdrop}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm flex items-center justify-center px-4"
+                    onClick={onClose}
                 >
-                    <button
-                        onClick={onClose}
-                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition"
-                        aria-label="Close login modal"
+                    <motion.div
+                        variants={modal}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 sm:p-10 relative"
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <X size={24} />
-                    </button>
-
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-                        <p className="mt-2 text-sm text-gray-600">
-                            Sign in to your hospital admin panel
-                        </p>
-                    </div>
-
-                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                        <div className="space-y-1">
-                            <label htmlFor="modal-email" className="block text-sm font-medium text-gray-700">
-                                Email Address
-                            </label>
-                            <input
-                                id="modal-email"
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                placeholder="admin@hospital.com"
-                            />
-                        </div>
-
-                        <div className="space-y-1">
-                            <label htmlFor="modal-password" className="block text-sm font-medium text-gray-700">
-                                Password
-                            </label>
-                            <div className="relative">
-                                <input
-                                    id="modal-password"
-                                    type={showPassword ? "text" : "password"}
-                                    required
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                                    placeholder="Enter your password"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                                >
-                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <input id="remember" type="checkbox" className="h-4 w-4 text-blue-600 rounded" />
-                                <label htmlFor="remember" className="ml-2 text-sm text-gray-700">Remember me</label>
-                            </div>
-                            <a href="#" className="text-sm text-blue-600 hover:text-blue-500">Forgot password?</a>
-                        </div>
-
                         <button
-                            type="submit"
-                            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200"
+                            onClick={onClose}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
                         >
-                            Sign In
+                            <X size={22} />
                         </button>
-                    </form>
 
-                    <div className="mt-6 text-center text-xs text-gray-500">
-                        <p>Demo: Enter any email and password to login</p>
-                    </div>
-                </div>
-            </div>
-        </>
+                        <div className="text-center">
+                            <h2 className="text-3xl font-bold text-gray-900">
+                                Welcome Back
+                            </h2>
+                            <p className="mt-2 text-sm text-gray-600">
+                                Sign in to your hospital admin panel
+                            </p>
+                        </div>
+
+                        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Email Address
+                                </label>
+                                <input
+                                    type="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <motion.button
+                                type="submit"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ type: "spring", stiffness: 300 }}
+                                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+                            >
+                                Sign In
+                            </motion.button>
+                        </form>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
 

@@ -4,6 +4,7 @@ import "@mantine/core/styles.css";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/auth/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
 
 
 function App() {
@@ -48,6 +49,8 @@ function App() {
 
           <Route path="*" element={<HomePage />} />
           <Route path="/login" element={<Login />} /> 
+          <Route path="/dashboard" element={<Dashboard />} />
+
         </Routes>
       </BrowserRouter>
     </MantineProvider>

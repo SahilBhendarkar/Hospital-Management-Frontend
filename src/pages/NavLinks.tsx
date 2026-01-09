@@ -1,9 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginModal from "./auth/LoginModal";
+import { motion } from "framer-motion";
+
 
 const NavLinks: React.FC = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+  }, []);
+
 
   const links = [
     { name: "Home", url: "/" },
@@ -32,12 +40,36 @@ const NavLinks: React.FC = () => {
           </Link>
         ))}
 
-        <button
-          onClick={() => setIsLoginModalOpen(true)}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-lg py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-        >
-          Login
-        </button>
+        {!isLoggedIn && (
+          <motion.button
+            onClick={() => setIsLoginModalOpen(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-lg py-3 px-8 rounded-full shadow-lg"
+          >
+            Login
+          </motion.button>
+        )}
+
+        {isLoggedIn && (
+          <motion.button
+            onClick={() => {
+              localStorage.removeItem("isLoggedIn");
+              setIsLoggedIn(false);
+              window.location.href = "/";
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="bg-red-500 hover:bg-red-600 text-white font-normal text-lg py-3 px-8 rounded-full shadow-lg"
+          >
+            Logout
+          </motion.button>
+        )}
+
+
+
       </nav>
 
       <LoginModal

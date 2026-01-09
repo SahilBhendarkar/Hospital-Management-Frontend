@@ -1,0 +1,88 @@
+import hospitalLogo from "../assets/images/hospital.png";
+import {
+  IconPhone,
+  IconMail,
+  IconBrandFacebook,
+  IconBrandTwitter,
+  IconBrandYoutube,
+  IconBrandWhatsapp,
+} from "@tabler/icons-react";
+import NavLinks from "./NavLinks";
+
+const Header = () => {
+  return (
+    <header className="w-full border-b border-gray-200 sticky top-0 z-50 bg-white shadow-sm">
+      <div className="bg-blue-900 text-white text-sm">
+        <div className="max-w-7xl mx-auto px-6 py-2">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <span className="flex items-center gap-1">
+                <IconPhone size={16} />
+                +91-9099433366
+              </span>
+              <span className="hidden sm:inline">|</span>
+              <span>+91-9099733366</span>
+              <span className="hidden sm:inline">|</span>
+              <span>+91-9099433360</span>
+              <span className="hidden sm:inline">|</span>
+              <span className="flex items-center gap-1">
+                <IconMail size={16} />
+                Ruganalay@gmail.com
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <a href="#" aria-label="Facebook" className="hover:text-blue-300 transition">
+                <IconBrandFacebook size={18} />
+              </a>
+              <a href="#" aria-label="Twitter" className="hover:text-blue-300 transition">
+                <IconBrandTwitter size={18} />
+              </a>
+              <a href="#" aria-label="YouTube" className="hover:text-red-400 transition">
+                <IconBrandYoutube size={18} />
+              </a>
+              <a href="#" aria-label="WhatsApp" className="hover:text-green-400 transition">
+                <IconBrandWhatsapp size={18} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className= "bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center gap-4">
+              <img
+                src={hospitalLogo}
+                alt="LifeLine Hospital Logo"
+                className="h-16 w-auto"
+              />
+              <div>
+                <h1 className="text-2xl font-bold text-blue-900">
+                  Hospital UI
+                </h1>
+                <p className="text-sm text-blue-600 font-medium">
+                  Partners in Quality Healthcare
+                </p>
+              </div>
+            </div>
+
+            <nav className="hidden lg:block">
+              <NavLinks />
+            </nav>
+
+            <button className="lg:hidden text-blue-900">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
+

@@ -1,0 +1,33 @@
+{
+  "name": "hospital",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mantine/carousel": "8.3.11",
+    "@mantine/core": "8.3.11",
+    "@mantine/hooks": "8.3.11",
+    "@tabler/icons-react": "^3.36.1",
+    "lucide-react": "^0.562.0",
+    "marquee": "^0.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-fast-marquee": "^1.6.5",
+    "react-router-dom": "6.22.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.4.5",
+    "vite": "^5.4.10"
+  }
+}

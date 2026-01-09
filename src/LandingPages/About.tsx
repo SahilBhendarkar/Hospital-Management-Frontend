@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from "framer-motion";
 import surgeryImage from "../assets/images/surgery.png";
 
 
@@ -78,12 +79,16 @@ const About: React.FC = () => {
                     </div>
 
                     <div className="mt-10">
-                        <a
+                        <motion.a
                             href="https://lifelinesurat.com/about-us/"
-                            className="inline-block bg-blue-600 text-white font-semibold text-lg py-4 px-10 rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            className="inline-block bg-blue-600 text-white font-semibold text-lg py-4 px-10 rounded-lg hover:bg-blue-700 shadow-lg"
                         >
                             Read More
-                        </a>
+                        </motion.a>
+
                     </div>
                 </div>
             </div>

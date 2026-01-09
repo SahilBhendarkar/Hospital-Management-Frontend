@@ -1,6 +1,8 @@
-
 import React from "react";
+import { easeOut, motion } from "framer-motion";
 import hospitalLogo from "../assets/images/hospital.png";
+
+
 const Footer: React.FC = () => {
   return (
     <footer id="colophon" className="bg-gray-900 text-gray-200">
@@ -96,12 +98,16 @@ const Footer: React.FC = () => {
                 placeholder="Email"
                 className="px-4 py-2 rounded text-black"
               />
-              <button
+              <motion.button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded text-white"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 500, damping: 20, mass: 0.5}}
+                className="inline-block bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded-lg text-lg text-white shadow-lg"
               >
                 Send
-              </button>
+              </motion.button>
+
             </form>
 
             <div className="mt-5 text-xs leading-relaxed">

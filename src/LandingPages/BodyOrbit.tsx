@@ -4,10 +4,10 @@ import BodyPartItem from "../LandingPages/BodyPartItem";
 const BodyOrbit = ({ parts }: { parts: BodyPart[] }) => {
   return (
     <div
-      className="relative w-full aspect-square max-w-[90vw] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] mx-auto overflow-hidden"
+      className="relative w-full aspect-square max-w-[95vw] sm:max-w-[650px] md:max-w-[750px] lg:max-w-[900px] mx-auto"
       style={
         {
-          "--orbit-radius": "min(32vmin, 360px)",
+          "--orbit-radius": "min(42vmin, 420px)",
         } as React.CSSProperties
       }
     >

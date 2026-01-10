@@ -11,10 +11,12 @@ const BodySelector = () => {
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-[#f4e4e4] overflow-hidden">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-red-700 mb-8 sm:mb-10 md:mb-12 px-4">
+      <h2 className="text-8xl sm:text-3xl md:text-5xl font-bold text-center text-red-700 mb-8 sm:mb-10 md:mb-12 px-4">
         Choose the Area of Concern
       </h2>
-
+      <h2 className="text-8xl sm:text-3xl md:text-4xl font-semibold text-center text-black mb-8 sm:mb-10 md:mb-12 px-4">
+        Find the appropriate specialist for targeted care.</h2>
+        
       <BodyToggle active={active} setActive={setActive} />
 
       <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[650px] md:h-[650px] mx-auto">

@@ -80,7 +80,7 @@ export interface HeroSlide {
 
 export const heroSlides = [
   { image: "/slider/slider1.png", title: "24/7 Emergency Care", subtitle: "Life-Saving Response", description: "Immediate attention with world-class trauma care." },
-  { image: "slider/slider2.png", title: "Advanced Treatment", subtitle: "Cutting-Edge Technology", description: "Latest diagnostics & personalized care plans." },
+  { image: "/slider/slider2.png", title: "Advanced Treatment", subtitle: "Cutting-Edge Technology", description: "Latest diagnostics & personalized care plans." },
 ];
 
 

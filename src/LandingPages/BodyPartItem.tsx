@@ -5,46 +5,68 @@ interface BodyPartItemProps {
 }
 
 const BodyPartItem = ({ item }: BodyPartItemProps) => {
-  const colorMap: Record<string, string> = {
-    brain: "bg-cyan-300",
-    eye: "bg-pink-300",
-    ear: "bg-lime-300",
-    nose: "bg-indigo-300",
-    chest: "bg-teal-300",
-    heart: "bg-rose-300",
-    liver: "bg-cyan-300",
-    vocal: "bg-emerald-300",
-    arm: "bg-blue-400",
-    elbow: "bg-green-300",
-    default: "bg-gray-300",
+  const styleMap: Record<
+    string,
+    { ring: string; bg: string; label: string }
+  > = {
+    brain: { ring: "from-cyan-400 to-blue-500", bg: "bg-cyan-50", label: "text-cyan-700" },
+    eye: { ring: "from-pink-400 to-rose-500", bg: "bg-pink-50", label: "text-rose-700" },
+    ear: { ring: "from-yellow-400 to-orange-500", bg: "bg-yellow-50", label: "text-orange-700" },
+    nose: { ring: "from-indigo-400 to-blue-600", bg: "bg-indigo-50", label: "text-indigo-700" },
+    chest: { ring: "from-emerald-400 to-teal-500", bg: "bg-emerald-50", label: "text-emerald-700" },
+    heart: { ring: "from-red-400 to-rose-600", bg: "bg-rose-50", label: "text-rose-700" },
+    liver: { ring: "from-sky-400 to-cyan-600", bg: "bg-sky-50", label: "text-sky-700" },
+    vocal: { ring: "from-amber-400 to-yellow-600", bg: "bg-amber-50", label: "text-amber-700" },
+    arm: { ring: "from-blue-400 to-indigo-600", bg: "bg-blue-50", label: "text-blue-700" },
+    elbow: { ring: "from-green-400 to-emerald-600", bg: "bg-green-50", label: "text-green-700" },
+
+    stomach: { ring: "from-orange-400 to-amber-600", bg: "bg-orange-50", label: "text-orange-700" },
+    kidney: { ring: "from-red-500 to-pink-600", bg: "bg-pink-50", label: "text-pink-700" },
+    "reproductive system": { ring: "from-fuchsia-400 to-purple-600", bg: "bg-fuchsia-50", label: "text-fuchsia-700" },
+    knee: { ring: "from-indigo-400 to-violet-600", bg: "bg-violet-50", label: "text-violet-700" },
+    thigh: { ring: "from-lime-400 to-green-600", bg: "bg-lime-50", label: "text-lime-700" },
+    hip: { ring: "from-amber-400 to-orange-600", bg: "bg-amber-50", label: "text-amber-700" },
+    "lower back": { ring: "from-teal-400 to-cyan-600", bg: "bg-teal-50", label: "text-teal-700" },
+
+    default: { ring: "from-gray-300 to-gray-500", bg: "bg-gray-50", label: "text-gray-700" },
   };
 
-  const bgColor = colorMap[item.name.toLowerCase()] || colorMap.default;
+  const styles =
+    styleMap[item.name.toLowerCase()] || styleMap.default;
 
   return (
     <div className="group relative flex flex-col items-center scale-[0.85] sm:scale-100">
       <div
         className={`
           w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
-          ${bgColor}
           rounded-full
-          flex items-center justify-center
-          shadow-lg shadow-black/20
-          border-4 border-white
+          bg-gradient-to-br ${styles.ring}
+          p-[4px]
+          shadow-xl shadow-black/25
           transition-all duration-300
-          group-hover:scale-110 group-hover:shadow-xl
-          relative z-10
+          group-hover:scale-110
         `}
       >
-        <img
-          src={item.image}
-          alt={item.name}
-          className="w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 object-contain drop-shadow-md rounded-3xl"
-        />
+        <div
+          className={`
+            w-full h-full rounded-full
+            ${styles.bg}
+            flex items-center justify-center
+            border-4 border-white
+          `}
+        >
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 object-contain drop-shadow-md"
+          />
+        </div>
       </div>
 
-      <div className="mt-2 sm:mt-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm rounded-full shadow-md">
-        <span className="text-[10px] sm:text-xs md:text-sm font-bold tracking-wide text-gray-800">
+      <div className="mt-2 sm:mt-3 px-3 py-1.5 bg-white rounded-full shadow-md">
+        <span
+          className={`text-[10px] sm:text-xs md:text-sm font-bold tracking-wide ${styles.label}`}
+        >
           {item.name.toUpperCase()}
         </span>
       </div>

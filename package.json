@@ -15,6 +15,7 @@
     "@tabler/icons-react": "^3.36.1",
     "embla-carousel-autoplay": "^8.6.0",
     "framer-motion": "^12.25.0",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.562.0",
     "marquee": "^0.2.1",
     "react": "18.2.0",

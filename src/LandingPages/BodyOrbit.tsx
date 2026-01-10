@@ -2,11 +2,14 @@ import type { BodyPart } from "../data/Data";
 import BodyPartItem from "../LandingPages/BodyPartItem";
 
 const BodyOrbit = ({ parts }: { parts: BodyPart[] }) => {
-
   return (
     <div
-      className="relative w-full aspect-square max-w-[min(90vw,800px)] mx-auto"
-      style={{ '--orbit-radius': 'min(45vmin, 500px)' } as React.CSSProperties}
+      className="relative w-full aspect-square max-w-[90vw] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] mx-auto overflow-hidden"
+      style={
+        {
+          "--orbit-radius": "min(32vmin, 360px)",
+        } as React.CSSProperties
+      }
     >
       {parts.map((item, i) => (
         <div
@@ -20,9 +23,7 @@ const BodyOrbit = ({ parts }: { parts: BodyPart[] }) => {
               rotate(-${item.angle}deg)
             `,
           }}
-
         >
-          <div className="mb-20"></div>
           <BodyPartItem item={item} />
         </div>
       ))}

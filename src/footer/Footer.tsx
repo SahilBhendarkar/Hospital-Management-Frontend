@@ -1,20 +1,17 @@
 import React from "react";
-import { easeOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import hospitalLogo from "../assets/images/hospital.png";
-import { section } from "framer-motion/client";
-
 
 const Footer: React.FC = () => {
   return (
     <footer id="colophon" className="bg-gray-900 text-gray-200">
-      <div className="py-20">
-        <div className="max-w-8xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
-
+      <div className="py-12 sm:py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
           <div>
             <img
               src={hospitalLogo}
-              alt="moshpital"
-              className="mb-4"
+              alt="hospital"
+              className="mb-4 h-12 sm:h-14 w-auto"
             />
             <p className="text-sm leading-relaxed">
               To improve the health of those we serve with a commitment to
@@ -23,14 +20,16 @@ const Footer: React.FC = () => {
             </p>
             <a
               href="/about-us"
-              className="inline-block mt-3 text-blue-400 hover:underline"
+              className="inline-block mt-3 text-blue-400 hover:underline text-sm"
             >
               Read More →
             </a>
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+              Quick Links
+            </h4>
             <ul className="space-y-2 text-sm">
               {[
                 "Home",
@@ -54,7 +53,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Details</h4>
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+              Contact Details
+            </h4>
 
             <p className="text-sm mb-3">
               Sawangi Meghe, Wardha – 442001.
@@ -75,13 +76,13 @@ const Footer: React.FC = () => {
             <div className="mt-3 text-sm">
               <a
                 href="mailto:lifelinehospitalsurat@gmail.com"
-                className="block hover:text-blue-400"
+                className="block hover:text-blue-400 break-all"
               >
                 hospital@gmail.com
               </a>
               <a
                 href="mailto:infolifelinesurat@gmail.com"
-                className="block hover:text-blue-400"
+                className="block hover:text-blue-400 break-all"
               >
                 hospital123@gmail.com
               </a>
@@ -89,7 +90,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               Sign Up To Newsletter
             </h4>
 
@@ -97,18 +98,17 @@ const Footer: React.FC = () => {
               <input
                 type="email"
                 placeholder="Email"
-                className="px-4 py-2 rounded text-black"
+                className="px-4 py-2 rounded text-black text-sm"
               />
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 500, damping: 20, mass: 0.5}}
-                className="inline-block bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded-lg text-lg text-white shadow-lg"
+                transition={{ type: "spring", stiffness: 500, damping: 20, mass: 0.5 }}
+                className="bg-blue-600 hover:bg-blue-700 transition px-4 py-2 rounded-lg text-base sm:text-lg text-white shadow-lg"
               >
                 Send
               </motion.button>
-
             </form>
 
             <div className="mt-5 text-xs leading-relaxed">
@@ -122,31 +122,29 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-t border-gray-700 py-6">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
-
-          <p className="text-sm text-center md:text-left">
-            © {new Date().getFullYear()} Multispeciality Hospital. All
-            Rights Reserved.
+      <div className="border-t border-gray-700 py-4 sm:py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+          <p className="text-xs sm:text-sm text-center md:text-left">
+            © {new Date().getFullYear()} Multispeciality Hospital. All Rights Reserved.
           </p>
 
           <div className="flex justify-center gap-4">
             <a href="https://www.facebook.com/Lifelinesurat" target="_blank">
               <img
                 src="https://lifelinesurat.com/wp-content/uploads/2023/04/facebook-app-symbol-1.png"
-                className="h-6"
+                className="h-5 sm:h-6"
               />
             </a>
             <a href="https://twitter.com/Lifelinesurat" target="_blank">
               <img
                 src="https://lifelinesurat.com/wp-content/uploads/2023/06/twitter-2.png"
-                className="h-6"
+                className="h-5 sm:h-6"
               />
             </a>
             <a href="#" target="_blank">
               <img
                 src="https://lifelinesurat.com/wp-content/uploads/2023/06/youtube-1.png"
-                className="h-6"
+                className="h-5 sm:h-6"
               />
             </a>
             <a
@@ -155,11 +153,10 @@ const Footer: React.FC = () => {
             >
               <img
                 src="https://lifelinesurat.com/wp-content/uploads/2023/06/whatsapp-3.png"
-                className="h-6"
+                className="h-5 sm:h-6"
               />
             </a>
           </div>
-
         </div>
       </div>
     </footer>

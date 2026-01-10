@@ -8,6 +8,7 @@ import {
   IconBrandWhatsapp,
 } from "@tabler/icons-react";
 import NavLinks from "./NavLinks";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -50,23 +51,24 @@ const Header = () => {
       </div>
 
       <div className= "bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="px-6">
           <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-4">
-              <img
-                src={hospitalLogo}
-                alt="LifeLine Hospital Logo"
-                className="h-16 w-auto"
-              />
-              <div>
-                <h1 className="text-2xl font-bold text-blue-900">
-                  Hospital UI
-                </h1>
-                <p className="text-sm text-blue-600 font-medium">
-                  Partners in Quality Healthcare
-                </p>
-              </div>
-            </div>
+
+          <Link to="/"className="flex items-center gap-4 cursor-pointer hover:opacity-90 transition">
+          <img
+            src={hospitalLogo}
+              alt="Hospital Logo"
+              className="h-16 w-auto" />
+  <div>
+    <h1 className="text-2xl font-bold text-blue-900">
+      Hospital UI
+    </h1>
+    <p className="text-sm text-blue-600 font-medium">
+      Partners in Quality Healthcare
+    </p>
+  </div>
+</Link>
+
 
             <nav className="hidden lg:block">
               <NavLinks />

@@ -79,7 +79,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
                         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Email Address
                                 </label>
                                 <input
@@ -92,7 +92,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Password
                                 </label>
                                 <div className="relative">

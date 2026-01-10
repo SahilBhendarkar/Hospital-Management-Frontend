@@ -1,6 +1,7 @@
 import React from "react";
 import { easeOut, motion } from "framer-motion";
 import hospitalLogo from "../assets/images/hospital.png";
+import { section } from "framer-motion/client";
 
 
 const Footer: React.FC = () => {

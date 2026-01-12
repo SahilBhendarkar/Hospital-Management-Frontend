@@ -84,220 +84,187 @@ export const heroSlides = [
 ];
 
 
-
-export interface BodyPart {
-  id: number;
-  name: string;
-  image: string;
-  category: "upper" | "lower";
-}
-
-export type BodyCategory = "upper" | "lower";
-export interface BodyPart {
-  name: string;
-  image: string;
-  department: string;
-  angle: number;
-  category: "upper" | "lower";
-}
 export interface Department {
   name: string;
   link: string;
 }
 
 export interface BodyPart {
+  id: number;
   name: string;
-  image: string;          
-  angle: number;           
+  image: string;
   departments: Department[];
+  angle: number;
+  category: "upper" | "lower";
 }
+
 export const bodyParts: BodyPart[] = [
   // ================= UPPER BODY =================
-
   {
+    id: 1,
     name: "Brain",
     image: "/anatomy/human-brain.jpg",
-    department: "Neurology & Neurosurgery",
+    departments: [{ name: "Neurology & Neurosurgery", link: "/neurology" }],
     angle: 0,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 2,
     name: "Eye",
     image: "/anatomy/human-eye.jpg",
-    department: "Ophthalmology",
+    departments: [{ name: "Ophthalmology", link: "/ophthalmology" }],
     angle: 36,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 3,
     name: "Ear",
     image: "/anatomy/human-ear.jpg",
-    department: "ENT – Laryngology",
+    departments: [{ name: "ENT – Laryngology", link: "/ent" }],
     angle: 324,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 4,
     name: "Nose",
     image: "/anatomy/human-ent.jpg",
-    department: "ENT – Laryngology",
+    departments: [{ name: "ENT – Laryngology", link: "/ent" }],
     angle: 288,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 5,
     name: "Chest",
     image: "/anatomy/human-chest.jpg",
-    department: "Pulmonary Medicine",
+    departments: [{ name: "Pulmonary Medicine", link: "/pulmonary" }],
     angle: 252,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 6,
     name: "Heart",
     image: "/anatomy/human-heart.jpg",
-    department: "Cardiology",
+    departments: [{ name: "Cardiology", link: "/cardiology" }],
     angle: 216,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 7,
     name: "Liver",
     image: "/anatomy/human-liver.jpg",
-    department: "Gastroenterology",
+    departments: [{ name: "Gastroenterology", link: "/gastroenterology" }],
     angle: 180,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 8,
     name: "Arm",
     image: "/anatomy/human-hands.jpg",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 108,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 9,
     name: "Elbow",
     image: "/anatomy/human-hands.jpg",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 144,
     category: "upper",
-    id: 0,
-    departments: []
   },
   {
+    id: 10,
     name: "Vocal Cord",
     image: "/anatomy/human-vocal-cord.jpg",
-    department: "ENT & Voice Care",
+    departments: [{ name: "ENT & Voice Care", link: "/ent-voice" }],
     angle: 72,
     category: "upper",
-    id: 0,
-    departments: []
   },
 
   // ================= LOWER BODY =================
-
   {
+    id: 11,
     name: "Kidney",
     image: "/anatomy/human-kidney.jpg",
-    department: "Nephrology & Urology",
+    departments: [{ name: "Nephrology & Urology", link: "/nephrology" }],
     angle: 36,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 12,
     name: "Stomach",
     image: "/anatomy/human-stomach.jpg",
-    department: "Gastroenterology",
+    departments: [{ name: "Gastroenterology", link: "/gastroenterology" }],
     angle: 0,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 13,
     name: "Lower Back",
     image: "/anatomy/human-spine.jpg",
-    department: "Spine Surgery & Physiotherapy",
+    departments: [{ name: "Spine Surgery & Physiotherapy", link: "/spine" }],
     angle: 324,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 14,
     name: "Reproductive System",
     image: "/anatomy/human-gynecology.jpg",
-    department: "Gynecology & Urology",
+    departments: [{ name: "Gynecology & Urology", link: "/gynecology" }],
     angle: 72,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 15,
     name: "Hip",
     image: "/anatomy/human-hip.jpg",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 288,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 16,
     name: "Thigh",
     image: "/anatomy/thigh-service-icon.png",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 252,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 17,
     name: "Knee",
     image: "/anatomy/human-knee.jpg",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 108,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 18,
     name: "Varicose Vein",
     image: "/anatomy/human-leg.jpg",
-    department: "Vascular Surgery",
+    departments: [{ name: "Vascular Surgery", link: "/vascular" }],
     angle: 216,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 19,
     name: "Ankle",
     image: "/anatomy/human-leg.jpg",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 144,
     category: "lower",
-    id: 0,
-    departments: []
   },
   {
+    id: 20,
     name: "Foot",
     image: "/anatomy/human-leg.jpg",
-    department: "Orthopedics",
+    departments: [{ name: "Orthopedics", link: "/orthopedics" }],
     angle: 180,
     category: "lower",
-    id: 0,
-    departments: []
   },
 ];
+
+
 
 export const teamMembers = [
   {

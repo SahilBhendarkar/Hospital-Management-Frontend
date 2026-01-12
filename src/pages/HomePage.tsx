@@ -5,6 +5,8 @@ import About from "../LandingPages/About";
 import IndexSlider from "../LandingPages/IndexSlider";
 import BodySelector from "../LandingPages/BodySelector";
 import OurTeam from "../LandingPages/OurTeam";
+import PatientReviews from "../LandingPages/PatientReview";
+import AppointmentAndEvents from "../LandingPages/AppointmentAndEvents";
 
 
 export default function HomePage() {
@@ -16,6 +18,8 @@ export default function HomePage() {
       <OurTeam />
       <Services/>
       <BodySelector/>
+      <AppointmentAndEvents />
+      <PatientReviews />
       <Footer/>
     </div>
   );

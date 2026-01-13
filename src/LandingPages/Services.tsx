@@ -88,7 +88,7 @@ const Services = () => {
               aria-label={`Service: ${service.name}`}
             >
               <img
-                src={`/public/services/${service.image}`}
+                src={`/services/${service.image}`}
                 alt={`${service.name} service`}
                 className="h-16 object-contain mb-1"
               />

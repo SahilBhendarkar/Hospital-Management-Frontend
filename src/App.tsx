@@ -5,6 +5,9 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/auth/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import Register from "./pages/auth/Register";
+import Departments from "./pages/Departments";
+import Doctors from "./pages/Doctors";
 
 
 function App() {
@@ -48,8 +51,11 @@ function App() {
         <Routes>
 
           <Route path="*" element={<HomePage />} />
-          <Route path="/login" element={<Login />} /> 
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/departments" element={<Departments />} />
+          <Route path="/doctors" element={<Doctors />} />
 
         </Routes>
       </BrowserRouter>

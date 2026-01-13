@@ -2,29 +2,33 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Calendar, MapPin, Users, Star } from "lucide-react";
+import event1 from "../assets/images/event1.jpg";
+import event2 from "../assets/images/event2.jpg";
+import event3 from "../assets/images/event3.jpg";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
 const events = [
     {
-        date: "17-03-2024",
+        date: "17-03-2026",
         title: "Umbergaon Taluka Medico Club",
         description: "Medical professionals gathering for knowledge exchange & networking",
-        image: "/events/event1.jpg",
+        image: event1,
         link: "#",
     },
     {
-        date: "10-03-2024",
+        date: "10-03-2026",
         title: "Ankleshwar DOCTOR'S Club Cricket Tournament",
         description: "Annual cricket tournament for doctors",
-        image: "/events/event2.jpg",
+        image: event2,
         link: "#",
     },
     {
-        date: "09-03-2024",
+        date: "09-03-2026",
         title: "Senior Citizen Camp",
         description: "Free health checkup camp for senior citizens",
-        image: "/events/event3.jpg",
+        image: event3,
         link: "#",
     },
 ];
@@ -76,7 +80,7 @@ const AppointmentAndEvents = () => {
     return (
         <section
             ref={sectionRef}
-            className="py-24 bg-slate-50"
+            className="py-24 bg-slate-200"
             role="region"
             aria-labelledby="appointment-events-title"
         >
@@ -92,7 +96,7 @@ const AppointmentAndEvents = () => {
                         Appointment Form
                     </h2>
                     <p className="text-gray-600 mb-8">
-                        Book your appointment – response within 30 minutes
+                        Book your appointment - response within 30 minutes
                     </p>
 
                     <form className="space-y-5" aria-label="Appointment booking form">

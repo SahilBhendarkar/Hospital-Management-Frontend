@@ -70,6 +70,7 @@ export const services = [
     image: "Dedicated-advanced-Dialysis-Unit.png",
   },
 ];
+
 export interface HeroSlide {
   image: string;
   title: string;

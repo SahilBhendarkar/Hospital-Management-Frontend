@@ -1,123 +1,95 @@
-import { useEffect, useRef } from "react";
-import { Carousel } from "@mantine/carousel";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import Autoplay from "embla-carousel-autoplay";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { heroSlides } from "../data/Data";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { heroSlides } from '../data/Data'; 
 
 const IndexSlider = () => {
-  const autoplay = useRef(
-    Autoplay({
-      delay: 4000,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-    })
-  );
-
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const contentRefs = useRef<HTMLDivElement[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        contentRefs.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-    }, sectionRef);
+    if (!trackRef.current || !containerRef.current) return;
 
-    return () => ctx.revert();
+    const track = trackRef.current;
+    const containerWidth = containerRef.current.offsetWidth;
+
+    const slideWidth = containerWidth; 
+    let currentIndex = 0;
+    const totalSlides = heroSlides.length;
+
+    const slide = () => {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      gsap.to(track, {
+        x: -currentIndex * slideWidth,
+        duration: 1.2,
+        ease: 'power2.inOut',
+      });
+    };
+
+    const interval = setInterval(slide, 4000); 
+
+    const handleResize = () => {
+      const newWidth = containerRef.current?.offsetWidth || containerWidth;
+      gsap.set(track, { x: -currentIndex * newWidth });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="w-full"
-      role="region"
-      aria-label="Hero image slideshow"
-    >
-      <Carousel
-        withIndicators
-        height="100%"
-        slideSize="100%"
-        emblaOptions={{ loop: true }}
-        plugins={[autoplay.current]}
-        onMouseLeave={() => autoplay.current.play()}
-        nextControlIcon={<IconArrowRight size={22} aria-hidden="true" />}
-        previousControlIcon={<IconArrowLeft size={22} aria-hidden="true" />}
-        aria-label="Homepage hero carousel"
+    <section className="w-full bg-gradient-to-b from-gray-50 to-white">
+      <div
+        ref={containerRef}
         className="
-          [&_button]:bg-white/90
-          [&_button]:backdrop-blur-sm
-          [&_button]:text-blue-ribbon-700
-          [&_button]:shadow-lg
-          [&_button]:opacity-0
-          hover:[&_button]:opacity-100
-          [&_button]:transition-all
-          [&_button]:hover:scale-110
+          relative w-full 
+          aspect-[4/3] sm:aspect-[16/9] md:aspect-[5/3] 
+          max-h-[700px] mx-auto
+          overflow-hidden
         "
-        classNames={{
-          indicator:
-            "bg-white/70 data-[active]:bg-mountain-meadow-500 backdrop-blur-sm rounded-full w-3 h-3",
-        }}
       >
-        {heroSlides.map((slide, index) => (
-          <Carousel.Slide
-            key={index}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`Slide ${index + 1}: ${slide.title}`}
-          >
-            <div className="relative w-full h-[320px] sm:h-[420px] md:h-[520px] overflow-hidden rounded-none md:rounded-2xl">
+        <div
+          ref={trackRef}
+          className="absolute inset-0 flex will-change-transform"
+        >
+          {heroSlides.map((slide, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-full h-full relative"
+            >
               <img
                 src={slide.image}
                 alt={slide.title}
-                className="absolute inset-0 w-full h-full object-cover brightness-75"
+                className="
+                  w-full h-full object-cover brightness-[0.85]
+                "
+                loading={index === 0 ? 'eager' : 'lazy'}
               />
 
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-blue-ribbon-900/60 via-transparent to-indigo-900/50"
-                aria-hidden="true"
-              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
-              <div className="relative z-10 h-full max-w-7xl mx-auto flex items-center px-4 sm:px-6 md:px-10">
-                <div
-                  ref={(el) => {
-                    if (el) contentRefs.current[index] = el;
-                  }}
-                  className="max-w-xl text-white text-left"
-                >
-                  <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-4 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent drop-shadow-2xl">
-                    {slide.title}
-                  </h1>
-
-                  <h2 className="text-base sm:text-lg md:text-2xl font-bold mb-3 sm:mb-4 opacity-95">
+              <div className="absolute inset-0 flex items-center justify-center px-6 sm:px-10 md:px-16 lg:px-24">
+                <div className="max-w-4xl text-white text-center">
+                  <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-5 tracking-wide drop-shadow-lg">
                     {slide.subtitle}
                   </h2>
 
-                  <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed max-w-md">
+                  <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 leading-tight drop-shadow-2xl">
+                    {slide.title}
+                  </h1>
+
+                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
                     {slide.description}
                   </p>
                 </div>
               </div>
             </div>
-          </Carousel.Slide>
-        ))}
-      </Carousel>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

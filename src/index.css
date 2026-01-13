@@ -37,3 +37,23 @@
 .group:hover .group-hover\:brightness-75 {
     brightness: 75%;
 }
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 35s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .animate-marquee {
+        animation-duration: 45s;
+    }
+}

@@ -83,7 +83,7 @@ const PatientReviews = () => {
                 <h2
                     ref={titleRef}
                     id="patient-reviews-title"
-                    className="text-3xl sm:text-4xl font-bold text-center text-blue-900 mb-12"
+                    className="text-3xl sm:text-5xl font-bold text-center text-blue-900 mb-12"
                 >
                     Patient Reviews
                 </h2>

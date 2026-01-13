@@ -68,7 +68,7 @@ const OurTeams = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative py-16 overflow-hidden bg-white"
+            className="relative py-16 overflow-hidden bg-slate-200"
             role="region"
             aria-labelledby="our-teams-title"
         >

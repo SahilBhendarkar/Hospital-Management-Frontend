@@ -73,7 +73,6 @@ const DepartmentCard = ({ title, description, image, link }: Properties) => {
             transition-opacity duration-300
             flex items-end p-3">
                         <div className=" px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-xs sm:text-sm font-semibold text-blue-900 shadow-md flex items-center gap-2">
-                            <HeartIcon className="w-4 h-4" />
                             <span>View Details</span>
                         </div>
                     </div>

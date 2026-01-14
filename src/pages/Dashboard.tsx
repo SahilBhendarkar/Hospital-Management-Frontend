@@ -1,60 +1,11 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Header from "../components/layout/Header";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Dashboard = () => {
     const heroRef = useRef<HTMLDivElement>(null);
-    const titleRef = useRef<HTMLHeadingElement>(null);
-    const subtitleRef = useRef<HTMLParagraphElement>(null);
     const statsSectionRef = useRef<HTMLDivElement>(null);
-    const cardsRef = useRef<HTMLDivElement[]>([]);
-
-    useEffect(() => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-        tl.fromTo(
-            heroRef.current,
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.8 }
-        )
-            .fromTo(
-                titleRef.current,
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.6 },
-                "-=0.4"
-            )
-            .fromTo(
-                subtitleRef.current,
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.5 },
-                "-=0.3"
-            );
-
-        gsap.fromTo(
-            cardsRef.current,
-            { y: 80, opacity: 0 },
-            {
-                y: 0,
-                opacity: 1,
-                stagger: 0.2,
-                scrollTrigger: {
-                    trigger: statsSectionRef.current,
-                    start: "top center",
-                    end: "+=300",
-                    scrub: true,
-                    // pin: true,                // ← usually better without pin for dashboard
-                },
-            }
-        );
-
-        return () => {
-            tl.kill();
-            ScrollTrigger.getAll().forEach((t) => t.kill());
-        };
-    }, []);
+    const isStatsInView = useInView(statsSectionRef, { once: false, margin: "-100px" });
 
     return (
         <div
@@ -65,23 +16,33 @@ const Dashboard = () => {
             <Header />
 
             {/* Hero / Welcome area */}
-            <section ref={heroRef} className="pt-16 pb-12 px-5 md:px-10 lg:px-16">
+            <motion.section
+                ref={heroRef}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="pt-16 pb-12 px-5 md:px-10 lg:px-16"
+            >
                 <div className="max-w-7xl mx-auto text-center">
-                    <h1
-                        ref={titleRef}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
                         className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-5"
                     >
                         Hospital Dashboard
-                    </h1>
+                    </motion.h1>
 
-                    <p
-                        ref={subtitleRef}
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
                         className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto"
                     >
-                        Manage appointments, patients, doctors, billing & reports in one place
-                    </p>
+                        Manage appointments, patients, doctors, billing &amp; reports in one place
+                    </motion.p>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Quick Stats - Cards */}
             <section
@@ -96,10 +57,14 @@ const Dashboard = () => {
                         { title: "Pending Bills", value: "₹1.24L", color: "from-amber-500 to-amber-600" },
                         { title: "Doctors On Duty", value: "11", color: "from-indigo-500 to-indigo-600" },
                     ].map((stat, i) => (
-                        <div
+                        <motion.div
                             key={i}
-                            ref={(el) => {
-                                if (el) cardsRef.current[i] = el
+                            initial={{ y: 80, opacity: 0 }}
+                            animate={isStatsInView ? { y: 0, opacity: 1 } : { y: 80, opacity: 0 }}
+                            transition={{
+                                duration: 0.6,
+                                delay: i * 0.1,
+                                ease: [0.22, 1, 0.36, 1]
                             }}
                             className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow"
                         >
@@ -112,7 +77,7 @@ const Dashboard = () => {
                                     {stat.value}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </section>

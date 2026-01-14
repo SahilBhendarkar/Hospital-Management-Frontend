@@ -1,8 +1,5 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 interface Props {
   active: "upper" | "lower";
@@ -10,32 +7,15 @@ interface Props {
 
 const BodyCenter = ({ active }: Props) => {
   const imageRef = useRef<HTMLImageElement>(null);
+  const isInView = useInView(imageRef, { once: false, margin: "-20%" });
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        imageRef.current,
-        { opacity: 0, scale: 0.9 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: imageRef.current,
-            start: "top 80%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <img
+    <motion.img
       ref={imageRef}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       src={`/anatomy/Body-Anatomy-${active === "upper" ? "Upper" : "Lower"}.png`}
       alt={
         active === "upper"

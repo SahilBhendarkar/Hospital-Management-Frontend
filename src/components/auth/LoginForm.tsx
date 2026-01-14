@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,9 +22,10 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
     onSuccess?: () => void;
+    setIsRegisterModalOpen?: (open: boolean) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, setIsRegisterModalOpen = () => { } }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
 
@@ -72,12 +73,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 Login form for hospital admin panel
             </p>
 
-            {/* Email */}
+            {/* EMAIL */}
             <div>
-                <label className="block text-sm font-bold mb-2">
+                <label
+                    htmlFor="login-email"
+                    className="block text-sm font-bold mb-2"
+                >
                     Email Address
                 </label>
                 <input
+                    id="login-email"
                     type="email"
                     {...register("email")}
                     aria-invalid={!!errors.email}
@@ -92,13 +97,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 )}
             </div>
 
-            {/* Password */}
+            {/* PASSWORD */}
             <div>
-                <label className="block text-sm font-bold mb-2">
+                <label
+                    htmlFor="login-password"
+                    className="block text-sm font-bold mb-2"
+                >
                     Password
                 </label>
                 <div className="relative">
                     <input
+                        id="login-password"
                         type={showPassword ? "text" : "password"}
                         {...register("password")}
                         aria-invalid={!!errors.password}
@@ -107,7 +116,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                     />
                     <button
                         type="button"
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={() => { setShowPassword(!showPassword) }}
                         aria-label={showPassword ? "Hide password" : "Show password"}
                         className="absolute right-4 top-1/2 -translate-y-1/2"
                     >
@@ -121,7 +130,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 )}
             </div>
 
-            {/* Remember Me */}
+            {/* REMEMBER ME */}
             <label className="flex items-center gap-2 text-sm">
                 <input
                     type="checkbox"
@@ -131,7 +140,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 Remember me
             </label>
 
-            {/* Submit */}
+            {/* SUBMIT */}
             <Button
                 type="submit"
                 label={isSubmitting ? "Signing In..." : "Sign In"}
@@ -141,9 +150,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
 
             <p className="text-center text-sm text-gray-600">
                 Don't have an account?{" "}
-                <Link to="/register" className="text-black font-bold">
+                <button type="button" onClick={() => { onSuccess?.(); setIsRegisterModalOpen(true) }} className="text-black font-bold">
                     Create Account
-                </Link>
+                </button>
             </p>
         </form>
     );

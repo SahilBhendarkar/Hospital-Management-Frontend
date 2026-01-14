@@ -5,6 +5,7 @@ import { Calendar, MapPin, Users, Star } from "lucide-react";
 import event1 from "../assets/images/event1.jpg";
 import event2 from "../assets/images/event2.jpg";
 import event3 from "../assets/images/event3.jpg";
+import { Link } from "react-router-dom";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -84,7 +85,7 @@ const AppointmentAndEvents = () => {
             role="region"
             aria-labelledby="appointment-events-title"
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 xl:grid-cols-2 gap-16">
+            <div className="mx-auto px-4 sm:px-6 grid grid-cols-1 xl:grid-cols-2 gap-16">
                 <div
                     ref={formRef}
                     className="bg-white rounded-3xl shadow-xl p-10"
@@ -209,14 +210,16 @@ const AppointmentAndEvents = () => {
                     </div>
 
                     <div className="text-center mt-10">
-                        <a
-                            href="/events"
-                            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-4 rounded-xl"
+                        <Link
+                            to="/gallery"
+                            className="inline-flex items-center gap-2  bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-8 py-4 rounded-xl transition"
+                            aria-label="View all events gallery"
                         >
                             <Users className="w-5 h-5" />
                             View All Events
-                        </a>
+                        </Link>
                     </div>
+
                 </div>
             </div>
         </section>

@@ -1,9 +1,7 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import type { BodyPart } from "../data/Data";
-
-gsap.registerPlugin(ScrollTrigger);
+import { Link } from "react-router-dom";
 
 interface BodyPartItemProps {
   item: BodyPart;
@@ -11,6 +9,7 @@ interface BodyPartItemProps {
 
 const BodyPartItem = ({ item }: BodyPartItemProps) => {
   const itemRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(itemRef, { once: false, margin: "-15%" });
 
   const styleMap: Record<
     string,
@@ -20,7 +19,7 @@ const BodyPartItem = ({ item }: BodyPartItemProps) => {
     eye: { ring: "from-pink-400 to-rose-500", bg: "bg-pink-50", label: "text-rose-700", cardBg: "bg-gradient-to-br from-pink-50 to-rose-50", cardRing: "from-pink-400/20 to-rose-500/20" },
     ear: { ring: "from-yellow-400 to-orange-500", bg: "bg-yellow-50", label: "text-orange-700", cardBg: "bg-gradient-to-br from-yellow-50 to-orange-50", cardRing: "from-yellow-400/20 to-orange-500/20" },
     nose: { ring: "from-indigo-400 to-blue-600", bg: "bg-indigo-50", label: "text-indigo-700", cardBg: "bg-gradient-to-br from-indigo-50 to-blue-50", cardRing: "from-indigo-400/20 to-blue-600/20" },
-    chest: { ring: "from-emerald-400 to-teal-500", bg: "bg-emerald-50", label: "text-emerald-700", cardBg: "bg-gradient-to-br from-emerald-50 to-teal-50", cardRing: "from-emerald-400/20 to-teal-500/20" },
+    chest: { ring: "from-emerald-400 to-teal-500", bg: "bg-emerald-50", label: "text-emerald-700", cardBg: "bg-gradient-to-br from-emerald-50 to-teal- 50", cardRing: "from-emerald-400/20 to-teal-500/20" },
     heart: { ring: "from-red-400 to-rose-600", bg: "bg-rose-50", label: "text-rose-700", cardBg: "bg-gradient-to-br from-rose-50 to-red-50", cardRing: "from-red-400/20 to-rose-600/20" },
     liver: { ring: "from-sky-400 to-cyan-600", bg: "bg-sky-50", label: "text-sky-700", cardBg: "bg-gradient-to-br from-sky-50 to-cyan-50", cardRing: "from-sky-400/20 to-cyan-600/20" },
     vocal: { ring: "from-amber-400 to-yellow-600", bg: "bg-amber-50", label: "text-amber-700", cardBg: "bg-gradient-to-br from-amber-50 to-yellow-50", cardRing: "from-amber-400/20 to-yellow-600/20" },
@@ -38,58 +37,96 @@ const BodyPartItem = ({ item }: BodyPartItemProps) => {
     "varicose vein": { ring: "from-rose-400 to-red-600", bg: "bg-rose-50", label: "text-red-700", cardBg: "bg-gradient-to-br from-rose-50 to-red-50", cardRing: "from-rose-400/20 to-red-600/20" },
     default: { ring: "from-gray-300 to-gray-500", bg: "bg-gray-50", label: "text-gray-700", cardBg: "bg-gradient-to-br from-gray-50 to-gray-100", cardRing: "from-gray-300/20 to-gray-500/20" },
   };
-
   const styles = styleMap[item.name.toLowerCase()] || styleMap.default;
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        itemRef.current,
-        { opacity: 0, scale: 0.6 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: itemRef.current,
-            start: "top 85%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-    });
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div
+    <motion.div
       ref={itemRef}
-      className="group relative flex flex-col items-center scale-[0.85] sm:scale-100"
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col items-center cursor-pointer scale-[0.85] sm:scale-100"
       role="group"
       aria-label={`Body part: ${item.name}`}
     >
+      {/* ================= DEPARTMENT CARD  ================= */}
       <div
-        className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br ${styles.ring} p-[4px] shadow-xl shadow-black/25 transition-all duration-300 ease-out group-hover:scale-110 group-hover:shadow-2xl group-hover:z-50 group-hover:-rotate-3`}
-        aria-hidden="true"
+        className="
+          fixed left-1/2 top-1/2
+          -translate-x-1/2 -translate-y-[160%]
+          z-[9999]
+          w-56
+          opacity-0 scale-95 pointer-events-none
+          transition-all duration-200 ease-out
+          group-hover:opacity-100
+          group-hover:scale-100
+          group-hover:pointer-events-auto
+          bg-white rounded-xl shadow-2xl
+          border border-gray-200 p-4
+        "
+        role="tooltip"
       >
-        <div className={`w-full h-full rounded-full ${styles.bg} flex items-center justify-center border-4 border-white shadow-lg`}>
+        <p className="text-lg font-bold text-gray-900 mb-2">
+          Departments
+        </p>
+
+        <ul className="space-y-1">
+          {item.departments.map((dept) => (
+            <li key={dept.name}>
+              <Link
+                to={dept.link}
+                className="text-lg text-blue-600 hover:text-blue-800 hover:underline"
+              >
+                {dept.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ================= ICON ================= */}
+      <div
+        className={`
+          w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
+          rounded-full bg-gradient-to-br ${styles.ring}
+          p-[4px] shadow-xl
+          transition-all duration-300 ease-out
+          group-hover:scale-110
+          group-hover:-rotate-3
+        `}
+      >
+        <div
+          className={`
+            w-full h-full rounded-full ${styles.bg}
+            flex items-center justify-center
+            border-4 border-white
+          `}
+        >
           <img
             src={item.image}
             alt={`${item.name} icon`}
-            className="w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 object-contain drop-shadow-md transition-all duration-300"
+            className="w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 object-contain"
             loading="lazy"
           />
         </div>
       </div>
 
-      <div className="mt-2 sm:mt-3 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-md border border-white/60">
+      {/* ================= ICON NAME ================= */}
+      <div
+        className="
+          mt-2 sm:mt-3 px-3 py-1.5
+          bg-white/90 backdrop-blur-sm
+          rounded-full shadow-md border border-white/60
+          transition-all duration-300
+          group-hover:scale-105
+          group-hover:shadow-lg
+        "
+      >
         <span className={`text-[10px] sm:text-xs md:text-sm font-bold tracking-wide ${styles.label}`}>
           {item.name.toUpperCase()}
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,78 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import { bodyParts } from "../data/Data";
 import BodyToggle from "./BodyToggle";
 import BodyCenter from "./BodyCenter";
 import BodyOrbit from "./BodyOrbit";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const BodySelector = () => {
   const [active, setActive] = useState<"upper" | "lower">("upper");
 
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLHeadingElement>(null);
+  const isTitleInView = useInView(sectionRef, { once: false, margin: "-20%" });
   const toggleRef = useRef<HTMLDivElement>(null);
+  const isToggleInView = useInView(toggleRef, { once: false, margin: "-25%" });
   const visualRef = useRef<HTMLDivElement>(null);
+  const isVisualInView = useInView(visualRef, { once: false, margin: "-15%" });
 
   const filtered = bodyParts.filter((p) => p.category === active);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        [titleRef.current, subtitleRef.current],
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-
-      gsap.fromTo(
-        toggleRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-
-      gsap.fromTo(
-        visualRef.current,
-        { opacity: 0, scale: 0.95 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: visualRef.current,
-            start: "top 85%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
@@ -82,28 +25,40 @@ const BodySelector = () => {
       aria-labelledby="body-selector-title"
       aria-describedby="body-selector-subtitle"
     >
-      <h2
-        ref={titleRef}
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         id="body-selector-title"
         className="text-4xl sm:text-3xl md:text-4xl font-bold text-center text-red-700 mb-8 sm:mb-10 md:mb-12 px-4"
       >
         Choose the Area of Concern
-      </h2>
+      </motion.h2>
 
-      <h2
-        ref={subtitleRef}
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         id="body-selector-subtitle"
         className="text-4xl sm:text-3xl md:text-3xl font-semibold text-center text-black mb-8 sm:mb-10 md:mb-12 px-4"
       >
         Find the appropriate specialist for targeted care.
-      </h2>
+      </motion.h2>
 
-      <div ref={toggleRef}>
+      <motion.div
+        ref={toggleRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isToggleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
         <BodyToggle active={active} setActive={setActive} />
-      </div>
+      </motion.div>
 
-      <div
+      <motion.div
         ref={visualRef}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={isVisualInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[650px] md:h-[650px] mx-auto"
         aria-label="Human body selector visualization"
       >
@@ -117,7 +72,7 @@ const BodySelector = () => {
         </div>
 
         <BodyOrbit parts={filtered} />
-      </div>
+      </motion.div>
     </section>
   );
 };

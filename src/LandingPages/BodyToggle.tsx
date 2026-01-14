@@ -1,10 +1,7 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import upperBodyImg from "../assets/images/upperbody.png";
 import lowerBodyImg from "../assets/images/lowerbody.png";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface Props {
   active: "upper" | "lower";
@@ -13,30 +10,7 @@ interface Props {
 
 const BodyToggle = ({ active, setActive }: Props) => {
   const toggleRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<HTMLButtonElement[]>([]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        buttonsRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: toggleRef.current,
-            start: "top 85%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-    }, toggleRef);
-
-    return () => ctx.revert();
-  }, []);
+  const isInView = useInView(toggleRef, { once: false, margin: "-15%" });
 
   return (
     <div
@@ -49,10 +23,14 @@ const BodyToggle = ({ active, setActive }: Props) => {
         { type: "upper" as const, label: "Upper Body", img: upperBodyImg },
         { type: "lower" as const, label: "Lower Body", img: lowerBodyImg },
       ].map(({ type, label, img }, i) => (
-        <button
+        <motion.button
           key={type}
-          ref={(el) => {
-            if (el) buttonsRef.current[i] = el;
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{
+            duration: 0.6,
+            delay: i * 0.15,
+            ease: [0.22, 1, 0.36, 1]
           }}
           onClick={() => setActive(type)}
           className={`group relative px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold transition-all duration-200 text-sm sm:text-base flex items-center gap-2 overflow-hidden shadow-sm
@@ -75,7 +53,7 @@ const BodyToggle = ({ active, setActive }: Props) => {
           </div>
 
           <span className="font-medium">{label}</span>
-        </button>
+        </motion.button>
       ))}
     </div>
   );

@@ -1,69 +1,14 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import TeamCard from "../components/TeamCard";
 import { teamMembers } from "../data/Data";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const OurTeams = () => {
     const sectionRef = useRef<HTMLElement>(null);
-    const titleRef = useRef<HTMLHeadingElement>(null);
-    const cardsRef = useRef<HTMLDivElement[]>([]);
+    const isTitleInView = useInView(sectionRef, { once: false, margin: "-20%" });
+    const cardsInView = useInView(sectionRef, { once: false, margin: "-25%" });
     const buttonRef = useRef<HTMLAnchorElement>(null);
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.fromTo(
-                titleRef.current,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 80%",
-                    },
-                }
-            );
-
-            gsap.fromTo(
-                cardsRef.current,
-                { opacity: 0, y: 40 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    stagger: 0.15,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 75%",
-                    },
-                }
-            );
-
-            gsap.fromTo(
-                buttonRef.current,
-                { opacity: 0, y: 20 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.6,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: buttonRef.current,
-                        start: "top 90%",
-                        toggleActions: "play reset play reset",
-                    },
-                }
-            );
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
+    const isButtonInView = useInView(buttonRef, { once: false, margin: "-10%" });
 
     return (
         <section
@@ -78,13 +23,15 @@ const OurTeams = () => {
             />
 
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-                <h2
-                    ref={titleRef}
+                <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     id="our-teams-title"
                     className="text-2xl sm:text-4xl font-bold text-white text-center mb-12"
                 >
                     OUR TEAMS
-                </h2>
+                </motion.h2>
 
                 <div
                     className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"
@@ -92,14 +39,19 @@ const OurTeams = () => {
                     aria-label="Hospital team members"
                 >
                     {teamMembers.slice(0, 4).map((member, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            ref={(el) => {
-                                if (el) cardsRef.current[index] = el;
-                            }} role="listitem"
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                            transition={{
+                                duration: 0.7,
+                                delay: index * 0.15,
+                                ease: [0.22, 1, 0.36, 1]
+                            }}
+                            role="listitem"
                         >
                             <TeamCard member={member} />
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
@@ -109,28 +61,35 @@ const OurTeams = () => {
                     aria-label="Hospital team members carousel"
                 >
                     {teamMembers.map((member, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            ref={(el) => {
-                                if (el) cardsRef.current[index] = el;
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                            transition={{
+                                duration: 0.7,
+                                delay: index * 0.15,
+                                ease: [0.22, 1, 0.36, 1]
                             }}
                             className="min-w-[260px]"
                             role="listitem"
                         >
                             <TeamCard member={member} />
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
                 <div className="text-center mt-12">
-                    <a
+                    <motion.a
                         ref={buttonRef}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isButtonInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                         href="/doctors"
                         className="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-md hover:bg-blue-700 transition"
                         aria-label="View all doctors"
                     >
                         View All
-                    </a>
+                    </motion.a>
                 </div>
             </div>
         </section>

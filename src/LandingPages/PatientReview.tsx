@@ -1,8 +1,5 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const reviews = [
     {
@@ -30,47 +27,8 @@ const reviews = [
 
 const PatientReviews = () => {
     const sectionRef = useRef<HTMLElement>(null);
-    const titleRef = useRef<HTMLHeadingElement>(null);
-    const cardsRef = useRef<HTMLDivElement[]>([]);
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.fromTo(
-                titleRef.current,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 80%",
-                        toggleActions: "play reset play reset",
-                    },
-                }
-            );
-
-            gsap.fromTo(
-                cardsRef.current,
-                { opacity: 0, y: 40 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    stagger: 0.2,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top 75%",
-                        toggleActions: "play reset play reset",
-                    },
-                }
-            );
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
+    const isTitleInView = useInView(sectionRef, { once: false, margin: "-20%" });
+    const cardsInView = useInView(sectionRef, { once: false, margin: "-25%" });
 
     return (
         <section
@@ -80,13 +38,15 @@ const PatientReviews = () => {
             aria-labelledby="patient-reviews-title"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                <h2
-                    ref={titleRef}
+                <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     id="patient-reviews-title"
                     className="text-3xl sm:text-5xl font-bold text-center text-blue-900 mb-12"
                 >
                     Patient Reviews
-                </h2>
+                </motion.h2>
 
                 <div
                     className="grid grid-cols-1 md:grid-cols-3 gap-6"
@@ -94,10 +54,14 @@ const PatientReviews = () => {
                     aria-label="Patient testimonials"
                 >
                     {reviews.map((item, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            ref={(el) => {
-                                if (el) cardsRef.current[index] = el;
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                            transition={{
+                                duration: 0.7,
+                                delay: index * 0.2,
+                                ease: [0.22, 1, 0.36, 1]
                             }}
                             className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6"
                             role="listitem"
@@ -132,7 +96,7 @@ const PatientReviews = () => {
                             <p className="text-gray-700 text-sm leading-relaxed">
                                 {item.review}
                             </p>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>

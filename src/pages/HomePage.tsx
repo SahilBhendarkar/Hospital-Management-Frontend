@@ -11,16 +11,16 @@ import AppointmentAndEvents from "../LandingPages/AppointmentAndEvents";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
-      <IndexSlider/>
+      <IndexSlider />
       <About />
       <OurTeam />
-      <Services/>
-      <BodySelector/>
+      <Services />
+      <BodySelector />
       <AppointmentAndEvents />
       <PatientReviews />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

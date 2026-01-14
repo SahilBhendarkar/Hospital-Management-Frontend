@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@mantine/carousel": "8.3.11",
     "@mantine/core": "8.3.11",
@@ -25,6 +26,7 @@
     "react-fast-marquee": "^1.6.5",
     "react-hook-form": "^7.71.0",
     "react-router-dom": "6.22.3",
+    "swiper": "^12.0.3",
     "zod": "^4.3.5"
   },
   "devDependencies": {

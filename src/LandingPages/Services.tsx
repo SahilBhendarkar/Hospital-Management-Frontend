@@ -1,53 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Marquee from "react-fast-marquee";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useInView } from "framer-motion";
 import { services } from "../data/Data";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const isTitleInView = useInView(sectionRef, { once: false, margin: "-20%" });
   const marqueeRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-
-      gsap.fromTo(
-        marqueeRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: marqueeRef.current,
-            start: "top 85%",
-            toggleActions: "play reset play reset",
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const isMarqueeInView = useInView(marqueeRef, { once: false, margin: "-15%" });
 
   return (
     <section
@@ -56,15 +16,22 @@ const Services = () => {
       role="region"
       aria-labelledby="services-title"
     >
-      <h2
-        ref={titleRef}
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         id="services-title"
         className="text-4xl md:text-5xl font-bold text-center text-blue-ribbon-900 mb-12"
       >
         Our <span className="text-mountain-meadow-600">Specialized </span>Services
-      </h2>
+      </motion.h2>
 
-      <div ref={marqueeRef}>
+      <motion.div
+        ref={marqueeRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isMarqueeInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
         <Marquee
           speed={36}
           pauseOnHover
@@ -88,7 +55,7 @@ const Services = () => {
               aria-label={`Service: ${service.name}`}
             >
               <img
-                src={`/public/services/${service.image}`}
+                src={`/services/${service.image}`}
                 alt={`${service.name} service`}
                 className="h-16 object-contain mb-1"
               />
@@ -99,7 +66,7 @@ const Services = () => {
             </div>
           ))}
         </Marquee>
-      </div>
+      </motion.div>
     </section>
   );
 };

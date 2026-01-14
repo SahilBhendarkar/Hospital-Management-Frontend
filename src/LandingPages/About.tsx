@@ -68,7 +68,7 @@ const About: React.FC = () => {
     return (
         <div
             ref={sectionRef}
-            className="container bg-slate-200 mx-auto px-4 py-12"
+            className="container  mx-auto px-4 py-12"
             role="main"
             aria-labelledby="about-title"
         >

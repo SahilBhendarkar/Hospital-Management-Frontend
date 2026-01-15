@@ -1,40 +1,67 @@
-import DashboardLayout from "./DashboardLayout";
+import { motion } from "framer-motion";
+import Header from "../../components/layout/Header";
+import { useAppSelector } from "../../store/store";
 
 const PatientDashboard = () => {
+    const { user } = useAppSelector((state) => state.auth);
+
     return (
-        <DashboardLayout
-            title="Patient Dashboard"
-            subtitle="View your appointments, reports, and billing details"
-            stats={[
-                { title: "Upcoming Appointments", value: "2", color: "from-blue-500 to-blue-600" },
-                { title: "Prescriptions", value: "5", color: "from-green-500 to-green-600" },
-                { title: "Pending Bills", value: "₹4,500", color: "from-amber-500 to-amber-600" },
-                { title: "Reports Available", value: "3", color: "from-indigo-500 to-indigo-600" },
-            ]}
-            actions={[
-                {
-                    icon: "AP",
-                    title: "Book Appointment",
-                    description: "Schedule a doctor visit easily",
-                    bg: "bg-blue-100",
-                    text: "text-blue-700",
-                },
-                {
-                    icon: "RP",
-                    title: "View Reports",
-                    description: "Access lab & diagnostic reports",
-                    bg: "bg-green-100",
-                    text: "text-green-700",
-                },
-            ]}
-            notices={[
-                {
-                    title: "Appointment Reminder",
-                    description: "Your cardiology appointment is tomorrow at 10:30 AM",
-                    color: "bg-blue-50 border-blue-200",
-                },
-            ]}
-        />
+        <div className="min-h-screen bg-teal-50">
+            <Header />
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8"
+                >
+                    <h1 className="text-3xl font-bold text-teal-900">
+                        Hello, {user?.name || user?.email}
+                    </h1>
+                    <p className="text-teal-600 mt-2">Welcome to your patient portal. Manage your health conveniently.</p>
+                </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* Quick Action Card */}
+                    <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-white p-6 rounded-2xl shadow-sm border border-teal-100"
+                    >
+                        <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4 text-teal-600">
+                            📅
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">My Appointments</h3>
+                        <p className="text-sm text-gray-500 mb-4">View upcoming visits and schedule new ones.</p>
+                        <button className="text-teal-600 font-medium hover:underline">View Schedule &rarr;</button>
+                    </motion.div>
+
+                    {/* Quick Action Card */}
+                    <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-white p-6 rounded-2xl shadow-sm border border-teal-100"
+                    >
+                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
+                            💊
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Prescriptions</h3>
+                        <p className="text-sm text-gray-500 mb-4">Access your current medications and history.</p>
+                        <button className="text-blue-600 font-medium hover:underline">View Prescriptions &rarr;</button>
+                    </motion.div>
+
+                    {/* Quick Action Card */}
+                    <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="bg-white p-6 rounded-2xl shadow-sm border border-teal-100"
+                    >
+                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4 text-purple-600">
+                            👨‍⚕️
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Find a Doctor</h3>
+                        <p className="text-sm text-gray-500 mb-4">Search for specialists and book consultations.</p>
+                        <button className="text-purple-600 font-medium hover:underline">Search Doctors &rarr;</button>
+                    </motion.div>
+                </div>
+            </main>
+        </div>
     );
 };
 

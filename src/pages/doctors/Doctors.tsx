@@ -1,16 +1,21 @@
 import DoctorsGrid from "../../components/doctors/DoctorsGrid";
+import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 
 const Doctors = () => {
     return (
-        <main role="main" className="min-h-screen bg-slate-50">
+        <main
+            role="main"
+            className="min-h-screen bg-slate-300"
+        >
             <Header />
-
-            <section className="max-w-7xl mx-auto px-4 sm:px-6">
-                <DoctorsGrid />
-            </section>
+            <DoctorsGrid />
+            <Footer />
         </main>
     );
 };
 
 export default Doctors;
+
+
+

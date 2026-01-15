@@ -44,12 +44,12 @@ const BodySelector = () => {
       >
         Find the appropriate specialist for targeted care.
       </motion.h2>
-
       <motion.div
         ref={toggleRef}
         initial={{ opacity: 0, y: 20 }}
         animate={isToggleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-10 sm:mb-12 md:mb-16"
       >
         <BodyToggle active={active} setActive={setActive} />
       </motion.div>

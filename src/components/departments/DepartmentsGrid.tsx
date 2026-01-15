@@ -22,21 +22,22 @@ const DepartmentsGrid = () => {
         );
     }, []);
 
+
     return (
         <section
             aria-labelledby="departments-heading"
-            className="py-8 sm:py-12 md:py-16"
+            className="py-16"
         >
             <h1
                 id="departments-heading"
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-6 sm:mb-8 md:mb-12"
+                className="text-5xl font-bold text-center mb-12"
             >
                 Departments
             </h1>
 
             <div
                 ref={gridRef}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                 role="list"
             >
                 {departments.map((dept) => (

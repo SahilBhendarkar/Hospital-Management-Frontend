@@ -1,5 +1,6 @@
 import "./App.css";
 import { createTheme, MantineProvider } from "@mantine/core";
+import { useAppSelector } from "./store/store";
 import "@mantine/core/styles.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -11,7 +12,8 @@ import DepartmentDetails from "./pages/departments/DepartmentDetails";
 import Doctors from "./pages/doctors/Doctors";
 import DoctorDetails from "./pages/doctors/DoctorDetails";
 import Gallery from "./pages/gallery/Gallery";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboards/Dashboard";
+import ContactPage from "./pages/Contact";
 
 function App() {
   const theme = createTheme({
@@ -46,7 +48,7 @@ function App() {
     defaultRadius: "md",
   });
 
-  const role = localStorage.getItem("role");
+  const { role } = useAppSelector((state) => state.auth);
 
   return (
     <MantineProvider theme={theme}>
@@ -61,6 +63,7 @@ function App() {
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/doctors/:doctorSlug" element={<DoctorDetails />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<h1>404 Page Not Found</h1>} />
         </Routes>
       </BrowserRouter>

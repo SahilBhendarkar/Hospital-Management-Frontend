@@ -18,22 +18,20 @@ const GalleryDetails = () => {
                 <img
                     src={image}
                     alt={title}
-                    className="w-full h-48 sm:h-64 md:h-80 object-cover"
+                    className="w-full h-80 object-cover"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 text-white">
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
-                            {title}
-                        </h1>
-                        <p className="mt-2 text-white/90 capitalize text-sm sm:text-base">
+                    <div className="max-w-6xl mx-auto px-6 text-white">
+                        <h1 className="text-4xl font-bold">{title}</h1>
+                        <p className="mt-2 text-white/90 capitalize">
                             {type}
                         </p>
                     </div>
                 </div>
             </section>
 
-            <section className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-                <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed">
+            <section className="max-w-5xl mx-auto px-6 py-12">
+                <p className="text-lg text-gray-700 leading-relaxed">
                     {description}
                 </p>
             </section>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import hospitalLogo from "../../assets/images/hospital.png";
 
 import {
@@ -11,22 +11,118 @@ import {
   IconBrandWhatsapp,
 } from "@tabler/icons-react";
 
-import NavLinks from "./NavLinks";
+import NavLinks, { type NavItem } from "./NavLinks";
 import LoginModal from "../../modals/LoginModal";
 import RegisterModal from "../../modals/RegisterModal";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { logout } from "../../store/slices/authSlice";
 
-const navLinks = [
+const GUEST_LINKS: NavItem[] = [
   { name: "Home", url: "/" },
-  { name: "Departments", url: "/departments" },
-  { name: "Doctors", url: "/doctors" },
+  {
+    name: "Departments",
+    url: "/departments",
+    dropdown: [
+      { name: "Cardiology", url: "/departments/cardiology" },
+      { name: "Orthopaedics", url: "/departments/orthopaedics" },
+      { name: "Neurology", url: "/departments/neurology" },
+    ],
+  },
+  {
+    name: "Doctors",
+    url: "/doctors",
+    dropdown: [
+      { name: "All Doctors", url: "/doctors" },
+      { name: "Surgeons", url: "/doctors/surgeons" },
+      { name: "Physicians", url: "/doctors/physicians" },
+    ],
+  },
   { name: "Gallery", url: "/gallery" },
   { name: "Contact", url: "/contact" },
+];
+
+const PATIENT_LINKS: NavItem[] = [
+  { name: "Dashboard", url: "/dashboard" },
+  { name: "My Appointments", url: "/dashboard" },
+  {
+    name: "Find Doctors",
+    url: "/doctors",
+    dropdown: [
+      { name: "All Doctors", url: "/doctors" },
+      { name: "Surgeons", url: "/doctors/surgeons" },
+      { name: "Physicians", url: "/doctors/physicians" },
+    ],
+  },
+  {
+    name: "Departments",
+    url: "/departments",
+    dropdown: [
+      { name: "Cardiology", url: "/departments/cardiology" },
+      { name: "Orthopaedics", url: "/departments/orthopaedics" },
+      { name: "Neurology", url: "/departments/neurology" },
+    ],
+  },
+];
+
+const DOCTOR_LINKS: NavItem[] = [
+  { name: "Dashboard", url: "/dashboard" },
+  { name: "Schedule", url: "/dashboard" },
+  { name: "Patients", url: "/dashboard" },
+  {
+    name: "Departments",
+    url: "/departments",
+    dropdown: [
+      { name: "Cardiology", url: "/departments/cardiology" },
+      { name: "Orthopaedics", url: "/departments/orthopaedics" },
+      { name: "Neurology", url: "/departments/neurology" },
+    ],
+  },
+];
+
+const ADMIN_LINKS: NavItem[] = [
+  { name: "Dashboard", url: "/dashboard" },
+  {
+    name: "Departments",
+    url: "/departments",
+    dropdown: [
+      { name: "Cardiology", url: "/departments/cardiology" },
+      { name: "Orthopaedics", url: "/departments/orthopaedics" },
+      { name: "Neurology", url: "/departments/neurology" },
+    ],
+  },
+  {
+    name: "Doctors",
+    url: "/doctors",
+    dropdown: [
+      { name: "All Doctors", url: "/doctors" },
+      { name: "Surgeons", url: "/doctors/surgeons" },
+      { name: "Physicians", url: "/doctors/physicians" },
+    ],
+  },
+  { name: "Settings", url: "/dashboard" },
 ];
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, role } = useAppSelector((state) => state.auth);
+
+  let currentLinks = GUEST_LINKS;
+  if (isAuthenticated) {
+    if (role === 'patient') currentLinks = PATIENT_LINKS;
+    else if (role === 'doctor') currentLinks = DOCTOR_LINKS;
+    else currentLinks = ADMIN_LINKS;
+  }
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setMobileMenuOpen(false);
+    navigate("/");
+  };
 
   return (
     <>
@@ -79,7 +175,7 @@ const Header = () => {
                   className="h-12 sm:h-16 w-auto"
                 />
                 <div className="leading-tight hidden sm:block">
-                  <h1 className="text-lg font-bold whitespace-nowrap">
+                  <h1 className="text-2xl font-bold whitespace-nowrap">
                     Hospital UI
                   </h1>
                   <p className="text-xs text-blue-600 whitespace-nowrap">
@@ -91,8 +187,12 @@ const Header = () => {
               {/* DESKTOP NAV */}
               <nav className="hidden md:flex min-w-fit" aria-label="Primary navigation">
                 <NavLinks
+                  links={currentLinks}
                   mobileMenuOpen={mobileMenuOpen}
                   setMobileMenuOpen={setMobileMenuOpen}
+                  isLoggedIn={isAuthenticated}
+                  onLoginClick={() => setIsLoginModalOpen(true)}
+                  onLogoutClick={handleLogout}
                 />
               </nav>
 
@@ -127,7 +227,7 @@ const Header = () => {
           {mobileMenuOpen && (
             <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
               <div className="px-4 py-4 space-y-3">
-                {navLinks.map((link) => (
+                {currentLinks.map((link) => (
                   <Link
                     key={link.name}
                     to={link.url}
@@ -138,15 +238,24 @@ const Header = () => {
                   </Link>
                 ))}
 
-                <button
-                  onClick={() => {
-                    setIsLoginModalOpen(true);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-sm mt-4"
-                >
-                  Login
-                </button>
+                {!isAuthenticated ? (
+                  <button
+                    onClick={() => {
+                      setIsLoginModalOpen(true);
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-sm mt-4"
+                  >
+                    Login
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleLogout}
+                    className="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-sm mt-4"
+                  >
+                    Logout
+                  </button>
+                )}
               </div>
             </div>
           )}

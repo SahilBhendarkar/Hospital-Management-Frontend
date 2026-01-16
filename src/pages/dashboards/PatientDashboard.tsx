@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/layout/Header";
 import { useAppSelector } from "../../store/store";
+import StatCard from "../../components/common/StatCard";
 
 const PatientDashboard = () => {
     const { user } = useAppSelector((state) => state.auth);
+    const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-teal-50">
@@ -21,44 +24,29 @@ const PatientDashboard = () => {
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Quick Action Card */}
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="bg-white p-6 rounded-2xl shadow-sm border border-teal-100"
-                    >
-                        <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mb-4 text-teal-600">
-                            📅
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">My Appointments</h3>
-                        <p className="text-sm text-gray-500 mb-4">View upcoming visits and schedule new ones.</p>
-                        <button className="text-teal-600 font-medium hover:underline">View Schedule &rarr;</button>
-                    </motion.div>
+                    <StatCard
+                        title="My Appointments"
+                        value="3"
+                        icon={<span className="text-2xl">📅</span>}
+                        colorClass="bg-teal-100 text-teal-600"
+                        trend={{ value: "Next: Tomorrow", label: "General Checkup", isPositive: true }}
+                    />
 
-                    {/* Quick Action Card */}
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="bg-white p-6 rounded-2xl shadow-sm border border-teal-100"
-                    >
-                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 text-blue-600">
-                            💊
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Prescriptions</h3>
-                        <p className="text-sm text-gray-500 mb-4">Access your current medications and history.</p>
-                        <button className="text-blue-600 font-medium hover:underline">View Prescriptions &rarr;</button>
-                    </motion.div>
+                    <StatCard
+                        title="Prescriptions"
+                        value="12"
+                        icon={<span className="text-2xl">💊</span>}
+                        colorClass="bg-blue-100 text-blue-600"
+                        trend={{ value: "2 Active", label: "medications", isPositive: true }}
+                    />
 
-                    {/* Quick Action Card */}
-                    <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="bg-white p-6 rounded-2xl shadow-sm border border-teal-100"
-                    >
-                        <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4 text-purple-600">
-                            👨‍⚕️
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Find a Doctor</h3>
-                        <p className="text-sm text-gray-500 mb-4">Search for specialists and book consultations.</p>
-                        <button className="text-purple-600 font-medium hover:underline">Search Doctors &rarr;</button>
-                    </motion.div>
+                    <StatCard
+                        title="Find a Doctor"
+                        value="Search"
+                        icon={<span className="text-2xl">👨‍⚕️</span>}
+                        colorClass="bg-purple-100 text-purple-600"
+                        onClick={() => navigate("/doctors")}
+                            />
                 </div>
             </main>
         </div>

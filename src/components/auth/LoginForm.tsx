@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { loginUser } from "../../store/slices/authSlice";
 import Button from "../common/Button";
+import Input from "../common/Input";
 
 const loginSchema = z.object({
     email: z
@@ -80,64 +81,27 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, setIsRegisterModalOpen
             </p>
 
             {/* EMAIL */}
-            <div>
-                <label
-                    htmlFor="login-email"
-                    className="block text-sm font-bold mb-2"
-                >
-                    Email Address
-                </label>
-                <input
-                    id="login-email"
-                    type="email"
-                    {...register("email")}
-                    aria-invalid={!!errors.email}
-                    className={`w-full px-5 py-4 border-2 rounded-2xl ${errors.email ? "border-red-500" : "border-gray-300"
-                        }`}
-                    placeholder="admin@hospital.com"
-                    disabled={loading}
-                />
-                {errors.email && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">
-                        {errors.email.message}
-                    </p>
-                )}
-            </div>
+            <Input
+                label="Email Address"
+                id="login-email"
+                type="email"
+                registration={register("email")}
+                error={errors.email}
+                placeholder="admin@hospital.com"
+                disabled={loading}
+            />
 
             {/* PASSWORD */}
-            <div>
-                <label
-                    htmlFor="login-password"
-                    className="block text-sm font-bold mb-2"
-                >
-                    Password
-                </label>
-                <div className="relative">
-                    <input
-                        id="login-password"
-                        type={showPassword ? "text" : "password"}
-                        {...register("password")}
-                        aria-invalid={!!errors.password}
-                        className={`w-full px-5 py-4 pr-14 border-2 rounded-2xl ${errors.password ? "border-red-500" : "border-gray-300"
-                            }`}
-                        disabled={loading}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => { setShowPassword(!showPassword) }}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                        className="absolute right-4 top-1/2 -translate-y-1/2"
-                        disabled={loading}
-                    >
-                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                </div>
-                {errors.password && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">
-                        {errors.password.message}
-                    </p>
-                )}
-            </div>
+            <Input
+                label="Password"
+                id="login-password"
+                type={showPassword ? "text" : "password"}
+                registration={register("password")}
+                error={errors.password}
+                disabled={loading}
+                icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                onIconClick={() => setShowPassword(!showPassword)}
+            />
 
             <label className="flex items-center gap-2 text-sm">
                 <input

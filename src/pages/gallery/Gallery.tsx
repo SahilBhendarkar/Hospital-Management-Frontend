@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Gallery = () => {
     return (
-        <main className="bg-slate-50 min-h-screen">
+        <main className="bg-slate-300 min-h-screen">
             <Header />
             <section className="max-w-6xl mx-auto px-6 py-16">
                 <div className="mb-12 text-center">

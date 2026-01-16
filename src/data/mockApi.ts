@@ -55,7 +55,7 @@ export const api = {
             role = 'doctor';
         }
 
-        return { email, name: "User", role };
+        return { email, name: "Test User", role };
     },
 
     fetchDashboardData: async (): Promise<DashboardData> => {

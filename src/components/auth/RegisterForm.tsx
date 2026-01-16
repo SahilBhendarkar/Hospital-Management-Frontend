@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Button from "../common/Button";
+import Input from "../common/Input";
 
 interface RegisterFormProps {
     onSuccess?: () => void;
@@ -60,7 +61,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
 
             phoneInput.addEventListener("input", handleInput);
             phoneInput.addEventListener("keypress", handleKeyPress);
-            
+
             return () => {
                 phoneInput.removeEventListener("input", handleInput);
                 phoneInput.removeEventListener("keypress", handleKeyPress);
@@ -75,10 +76,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             id: `user_${Date.now()}`,
             registrationDate: new Date().toISOString(),
         };
-        
+
         localStorage.setItem("user", JSON.stringify(userProfile));
         localStorage.setItem("isLoggedIn", "true");
-        
+
         reset();
         onSuccess?.();
     };
@@ -126,132 +127,68 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             </div>
 
             {/* FULL NAME */}
-            <div>
-                <label htmlFor="register-name" className="block text-sm font-bold mb-2">
-                    Full Name
-                </label>
-                <input
-                    id="register-name"
-                    type="text"
-                    {...register("name")}
-                    aria-invalid={!!errors.name}
-                    className={`w-full px-5 py-4 border-2 rounded-2xl focus:outline-none focus:border-blue-500 transition-all ${errors.name ? "border-red-500" : "border-gray-300"}`}
-                    placeholder="John Doe"
-                />
-                {errors.name && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">{errors.name.message}</p>
-                )}
-            </div>
+            <Input
+                label="Full Name"
+                id="register-name"
+                type="text"
+                registration={register("name")}
+                error={errors.name}
+                placeholder="John Doe"
+            />
 
             {/* EMAIL */}
-            <div>
-                <label htmlFor="register-email" className="block text-sm font-bold mb-2">
-                    Email Address
-                </label>
-                <input
-                    id="register-email"
-                    type="email"
-                    {...register("email")}
-                    aria-invalid={!!errors.email}
-                    className={`w-full px-5 py-4 border-2 rounded-2xl focus:outline-none focus:border-blue-500 transition-all ${errors.email ? "border-red-500" : "border-gray-300"}`}
-                    placeholder="john@hospital.com"
-                />
-                {errors.email && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">{errors.email.message}</p>
-                )}
-            </div>
+            <Input
+                label="Email Address"
+                id="register-email"
+                type="email"
+                registration={register("email")}
+                error={errors.email}
+                placeholder="john@hospital.com"
+            />
 
             {/* PHONE - 10 DIGITS ONLY */}
-            <div>
-                <label htmlFor="register-phone" className="block text-sm font-bold mb-2">
-                    Phone Number
-                </label>
-                <input
-                    id="register-phone"
-                    type="tel"
-                    inputMode="numeric"
-                    pattern="[0-9]{10}"
-                    maxLength={10}
-                    {...register("phone")}
-                    aria-invalid={!!errors.phone}
-                    className={`w-full px-5 py-4 border-2 rounded-2xl focus:outline-none focus:border-blue-500 transition-all ${errors.phone ? "border-red-500 ring-2 ring-red-200" : "border-gray-300"}`}
-                    placeholder="9876543210"
-                />
-                {errors.phone && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">{errors.phone.message}</p>
-                )}
-            </div>
+            <Input
+                label="Phone Number"
+                id="register-phone"
+                type="tel"
+                registration={register("phone")}
+                error={errors.phone}
+                placeholder="9876543210"
+                inputMode="numeric"
+                pattern="[0-9]{10}"
+                maxLength={10}
+            />
 
             {/* DATE OF BIRTH */}
-            <div>
-                <label htmlFor="register-dob" className="block text-sm font-bold mb-2">
-                    Date of Birth
-                </label>
-                <input
-                    id="register-dob"
-                    type="date"
-                    {...register("dateOfBirth")}
-                    aria-invalid={!!errors.dateOfBirth}
-                    className={`w-full px-5 py-4 border-2 rounded-2xl focus:outline-none focus:border-blue-500 transition-all ${errors.dateOfBirth ? "border-red-500" : "border-gray-300"}`}
-                />
-                {errors.dateOfBirth && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">{errors.dateOfBirth.message}</p>
-                )}
-            </div>
+            <Input
+                label="Date of Birth"
+                id="register-dob"
+                type="date"
+                registration={register("dateOfBirth")}
+                error={errors.dateOfBirth}
+            />
 
             {/* PASSWORD */}
-            <div>
-                <label htmlFor="register-password" className="block text-sm font-bold mb-2">
-                    Password
-                </label>
-                <div className="relative">
-                    <input
-                        id="register-password"
-                        type={showPassword ? "text" : "password"}
-                        {...register("password")}
-                        aria-invalid={!!errors.password}
-                        className={`w-full px-5 py-4 pr-14 border-2 rounded-2xl focus:outline-none focus:border-blue-500 transition-all ${errors.password ? "border-red-500" : "border-gray-300"}`}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-lg transition-all"
-                    >
-                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                </div>
-                {errors.password && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">{errors.password.message}</p>
-                )}
-            </div>
+            <Input
+                label="Password"
+                id="register-password"
+                type={showPassword ? "text" : "password"}
+                registration={register("password")}
+                error={errors.password}
+                icon={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                onIconClick={() => setShowPassword(!showPassword)}
+            />
 
             {/* CONFIRM PASSWORD */}
-            <div>
-                <label htmlFor="register-confirm-password" className="block text-sm font-bold mb-2">
-                    Confirm Password
-                </label>
-                <div className="relative">
-                    <input
-                        id="register-confirm-password"
-                        type={showConfirmPassword ? "text" : "password"}
-                        {...register("confirmPassword")}
-                        aria-invalid={!!errors.confirmPassword}
-                        className={`w-full px-5 py-4 pr-14 border-2 rounded-2xl focus:outline-none focus:border-blue-500 transition-all ${errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 rounded-lg transition-all"
-                    >
-                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                </div>
-                {errors.confirmPassword && (
-                    <p className="mt-1 text-sm text-red-600" role="alert">{errors.confirmPassword.message}</p>
-                )}
-            </div>
+            <Input
+                label="Confirm Password"
+                id="register-confirm-password"
+                type={showConfirmPassword ? "text" : "password"}
+                registration={register("confirmPassword")}
+                error={errors.confirmPassword}
+                icon={showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                onIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            />
 
             <Button
                 type="submit"

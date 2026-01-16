@@ -14,12 +14,12 @@ const ContactPage = () => {
 
     const showDateField = ['doctor_appointment', 'health_package'].includes(service);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+    }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('Form submitted:', { service, ...formData });
         alert('Thank you! Your enquiry has been received.');
@@ -37,7 +37,6 @@ const ContactPage = () => {
                     loading="lazy"
                 />
 
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent" />
 
                 {/* Content */}
@@ -79,14 +78,12 @@ const ContactPage = () => {
                                     />
                                 </div>
 
-                                {/* Get In Touch Form */}
                                 <div className="p-6 md:p-10 lg:p-12 flex flex-col">
                                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-blue-600 mb-8 text-center">
                                         Get In Touch
                                     </h2>
 
                                     <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-6">
-                                        {/* Select with fixed arrow */}
                                         <div className="relative">
                                             <select
                                                 value={service}
@@ -103,7 +100,6 @@ const ContactPage = () => {
                                                 <option value="job">Career / Job Enquiry</option>
                                                 <option value="other">Other Enquiry</option>
                                             </select>
-                                            {/* Custom arrow */}
                                             <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none">
                                                 <svg
                                                     className="w-5 h-5 text-gray-500"

@@ -29,7 +29,7 @@ const DoctorsGrid = () => {
         >
             <h1
                 id="doctors-heading"
-                className="text-3xl font-bold text-center mb-12"
+                className="text-5xl font-bold text-center mb-12"
             >
                 Our Doctors
             </h1>

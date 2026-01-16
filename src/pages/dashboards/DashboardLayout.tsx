@@ -35,13 +35,11 @@ const DashboardLayout = ({
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
             <Header />
 
-            {/* Hero */}
             <section className="pt-16 pb-12 text-center px-6">
                 <h1 className="text-5xl font-bold text-gray-900">{title}</h1>
                 <p className="text-gray-600 mt-4 max-w-3xl mx-auto">{subtitle}</p>
             </section>
 
-            {/* Stats */}
             <section className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
                 {stats.map((stat, i) => (
                     <div
@@ -59,7 +57,6 @@ const DashboardLayout = ({
 
             {/* Main */}
             <section className="px-6 pb-20 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
-                {/* Actions */}
                 <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {actions.map((action, i) => (
                         <div

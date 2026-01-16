@@ -13,7 +13,8 @@ import Doctors from "./pages/doctors/Doctors";
 import DoctorDetails from "./pages/doctors/DoctorDetails";
 import Gallery from "./pages/gallery/Gallery";
 import Dashboard from "./pages/dashboards/Dashboard";
-import ContactPage from "./pages/Contact";
+import HealthCheckupPlans from "./pages/health-plans/HealthCheckupPlans";
+import Contact from "./pages/Contact";
 
 function App() {
   const theme = createTheme({
@@ -63,7 +64,8 @@ function App() {
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/doctors/:doctorSlug" element={<DoctorDetails />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/health-plans" element={<HealthCheckupPlans />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<h1>404 Page Not Found</h1>} />
         </Routes>
       </BrowserRouter>

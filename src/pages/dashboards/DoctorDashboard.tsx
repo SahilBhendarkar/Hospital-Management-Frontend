@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Header from "../../components/layout/Header";
 import { useAppSelector } from "../../store/store";
+import StatCard from "../../components/common/StatCard";
 
 const DoctorDashboard = () => {
     const { user } = useAppSelector((state) => state.auth);
@@ -21,35 +22,25 @@ const DoctorDashboard = () => {
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <motion.div
-                        whileHover={{ y: -4 }}
-                        className="bg-white p-6 rounded-2xl shadow-sm border border-indigo-100"
-                    >
-                        <h3 className="text-gray-500 text-sm font-medium uppercase tracking-wider">Today's Appointments</h3>
-                        <p className="text-4xl font-bold text-indigo-600 mt-2">12</p>
-                        <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
-                            <span className="bg-green-100 px-2 py-0.5 rounded-full text-xs">↑ 2</span>
-                            <span>vs yesterday</span>
-                        </p>
-                    </motion.div>
-
-                    <motion.div
-                        whileHover={{ y: -4 }}
-                        className="bg-white p-6 rounded-2xl shadow-sm border border-indigo-100"
-                    >
-                        <h3 className="text-gray-500 text-sm font-medium uppercase tracking-wider">Pending Reports</h3>
-                        <p className="text-4xl font-bold text-orange-600 mt-2">5</p>
-                        <p className="text-sm text-gray-500 mt-2">Requires review</p>
-                    </motion.div>
-
-                    <motion.div
-                        whileHover={{ y: -4 }}
-                        className="bg-white p-6 rounded-2xl shadow-sm border border-indigo-100"
-                    >
-                        <h3 className="text-gray-500 text-sm font-medium uppercase tracking-wider">Patient Messages</h3>
-                        <p className="text-4xl font-bold text-blue-600 mt-2">3</p>
-                        <p className="text-sm text-blue-600 mt-2 hover:underline cursor-pointer">View messages</p>
-                    </motion.div>
+                    <StatCard
+                        title="Today's Appointments"
+                        value="8"
+                        icon={<span className="text-2xl">🗓️</span>}
+                        colorClass="bg-indigo-100 text-indigo-600"
+                        trend={{ value: "2", label: "vs yesterday", isPositive: true }}
+                    />
+                    <StatCard
+                        title="Pending Reports"
+                        value="5"
+                        icon={<span className="text-2xl">📝</span>}
+                        colorClass="bg-orange-100 text-orange-600"
+                    />
+                    <StatCard
+                        title="Patient Messages"
+                        value="3"
+                        icon={<span className="text-2xl">💬</span>}
+                        colorClass="bg-blue-100 text-blue-600"
+                    />
                 </div>
 
                 <div className="mt-8 bg-white rounded-2xl shadow-sm border border-indigo-100 overflow-hidden">

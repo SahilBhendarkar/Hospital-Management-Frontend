@@ -17,7 +17,7 @@ import RegisterModal from "../../modals/RegisterModal";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { logout } from "../../store/slices/authSlice";
 
-const GUEST_LINKS: NavItem[] = [
+const Navlinks: NavItem[] = [
   { name: "Home", url: "/" },
   {
     name: "Departments",
@@ -38,6 +38,7 @@ const GUEST_LINKS: NavItem[] = [
     ],
   },
   { name: "Gallery", url: "/gallery" },
+  { name: "Health Plans", url: "/health-plans" },
   { name: "Contact", url: "/contact" },
 ];
 
@@ -62,6 +63,7 @@ const PATIENT_LINKS: NavItem[] = [
       { name: "Neurology", url: "/departments/neurology" },
     ],
   },
+  { name: "Health Plans", url: "/health-plans" },
 ];
 
 const DOCTOR_LINKS: NavItem[] = [
@@ -111,7 +113,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, role } = useAppSelector((state) => state.auth);
 
-  let currentLinks = GUEST_LINKS;
+  let currentLinks = Navlinks;
   if (isAuthenticated) {
     if (role === 'patient') currentLinks = PATIENT_LINKS;
     else if (role === 'doctor') currentLinks = DOCTOR_LINKS;
@@ -223,7 +225,6 @@ const Header = () => {
             </div>
           </div>
 
-          {/*  MOBILE MENU  */}
           {mobileMenuOpen && (
             <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
               <div className="px-4 py-4 space-y-3">

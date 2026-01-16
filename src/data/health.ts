@@ -14,7 +14,6 @@ export const plans = [
             "Blood Sugar (Fasting)",
             "Urine Routine",
             "Blood Pressure",
-            "BMI Assessment",
         ],
         departments: ["Physician"],
     },

@@ -40,7 +40,7 @@ const HealthCheckupPlans = () => {
                             withBorder
                             radius="lg"
                             padding="lg"
-                            className="transition-all hover:shadow-xl bg-white"
+                            className="transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-2xl bg-white"
                         >
                             <Card.Section>
                                 <Image

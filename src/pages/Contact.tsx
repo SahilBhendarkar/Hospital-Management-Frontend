@@ -59,7 +59,7 @@ const ContactPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className="container mx-auto px-5 sm:px-6 lg:px-8 py-12 lg:py-16 -mt-16 relative z-20">
+            <div className="container mx-auto px-5 sm:px-6 lg:px-8 py-12 lg:py-16 mt-8 relative z-20">
                 <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
                     <div className="lg:col-span-2">
                         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">

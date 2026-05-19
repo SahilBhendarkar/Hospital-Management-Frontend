@@ -1,12 +1,46 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import DoctorCard from "./DoctorCard";
-import { doctors } from "../../data/doctors";
+import type { Doctor } from "../../data/doctors";
 
 const DoctorsGrid = () => {
+
     const gridRef = useRef<HTMLDivElement>(null);
 
+    // STORE DOCTORS FROM BACKEND
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
+
+    // FETCH DOCTORS FROM SPRING BOOT BACKEND
     useEffect(() => {
+
+        const fetchDoctors = async () => {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8080/api/doctors"
+                );
+
+                const data = await response.json();
+
+                setDoctors(data);
+
+            } catch (error) {
+
+                console.error(
+                    "Error fetching doctors:",
+                    error
+                );
+            }
+        };
+
+        fetchDoctors();
+
+    }, []);
+
+    // GSAP ANIMATION
+    useEffect(() => {
+
         if (!gridRef.current) return;
 
         gsap.fromTo(
@@ -20,13 +54,15 @@ const DoctorsGrid = () => {
                 ease: "power3.out",
             }
         );
-    }, []);
+
+    }, [doctors]);
 
     return (
         <section
             aria-labelledby="doctors-heading"
             className="py-16"
         >
+
             <h1
                 id="doctors-heading"
                 className="text-5xl font-bold text-center mb-12"
@@ -36,15 +72,29 @@ const DoctorsGrid = () => {
 
             <div
                 ref={gridRef}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                className="
+                    grid grid-cols-1
+                    sm:grid-cols-2
+                    lg:grid-cols-4
+                    gap-8
+                "
                 role="list"
             >
+
                 {doctors.map((doctor) => (
-                    <div role="listitem" key={doctor.id}>
+
+                    <div
+                        role="listitem"
+                        key={doctor.id}
+                    >
+
                         <DoctorCard doctor={doctor} />
+
                     </div>
                 ))}
+
             </div>
+
         </section>
     );
 };

@@ -1,19 +1,46 @@
-import { useAppSelector } from "../../store/store";
-import AdminDashboard from "./AdminDashboard";
-import PatientDashboard from "./PatientDashboard";
-import DoctorDashboard from "./DoctorDashboard";
+import { Navigate } from "react-router-dom";
+
+import AdminDashboard
+from "./AdminDashboard";
+
+import PatientDashboard
+from "./PatientDashboard";
+
+import DoctorDashboard
+from "./DoctorDashboard";
 
 const Dashboard = () => {
-    const { role } = useAppSelector((state) => state.auth);
 
-    if (role === 'patient') {
+    // GET USER
+    const user = JSON.parse(
+        localStorage.getItem("user")
+        || "null"
+    );
+
+    // NOT LOGGED IN
+    if (!user) {
+
+        return (
+            <Navigate
+                to="/login"
+                replace
+            />
+        );
+    }
+
+    // PATIENT DASHBOARD
+    if (user.role === "patient") {
+
         return <PatientDashboard />;
     }
 
-    if (role === 'doctor') {
+    // DOCTOR DASHBOARD
+    if (user.role === "doctor") {
+
         return <DoctorDashboard />;
     }
 
+    // ADMIN DASHBOARD
     return <AdminDashboard />;
 };
 

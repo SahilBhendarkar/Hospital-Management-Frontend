@@ -1,14 +1,68 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import TeamCard from "../components/TeamCard";
-import { teamMembers } from "../data/Data";
+import type { Doctor } from "../types/Doctors";
 
 const OurTeams = () => {
+
     const sectionRef = useRef<HTMLElement>(null);
-    const isTitleInView = useInView(sectionRef, { once: false, margin: "-20%" });
-    const cardsInView = useInView(sectionRef, { once: false, margin: "-25%" });
+
+    const isTitleInView = useInView(
+        sectionRef,
+        {
+            once: false,
+            margin: "-20%"
+        }
+    );
+
+    const cardsInView = useInView(
+        sectionRef,
+        {
+            once: false,
+            margin: "-25%"
+        }
+    );
+
     const buttonRef = useRef<HTMLAnchorElement>(null);
-    const isButtonInView = useInView(buttonRef, { once: false, margin: "-10%" });
+
+    const isButtonInView = useInView(
+        buttonRef,
+        {
+            once: false,
+            margin: "-10%"
+        }
+    );
+
+    // STORE BACKEND DOCTORS
+    const [doctors, setDoctors] = useState<Doctor[]>([]);
+
+    // FETCH DOCTORS
+    useEffect(() => {
+
+        const fetchDoctors = async () => {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:8080/api/doctors"
+                );
+
+                const data = await response.json();
+
+                setDoctors(data);
+
+            } catch (error) {
+
+                console.error(
+                    "Error fetching doctors:",
+                    error
+                );
+            }
+        };
+
+        fetchDoctors();
+
+    }, []);
 
     return (
         <section
@@ -17,32 +71,63 @@ const OurTeams = () => {
             role="region"
             aria-labelledby="our-teams-title"
         >
+
             <div
-                className="absolute inset-0 bg-blue-900 rounded-b-[80%] md:rounded-b-[60%] h-[420px] md:h-[680px]"
+                className="
+                    absolute inset-0
+                    bg-blue-900
+                    rounded-b-[80%]
+                    md:rounded-b-[60%]
+                    h-[420px]
+                    md:h-[680px]
+                "
                 aria-hidden="true"
             />
 
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+
                 <motion.h2
                     initial={{ opacity: 0, y: 30 }}
-                    animate={isTitleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    animate={
+                        isTitleInView
+                            ? { opacity: 1, y: 0 }
+                            : { opacity: 0, y: 30 }
+                    }
+                    transition={{
+                        duration: 0.8,
+                        ease: [0.22, 1, 0.36, 1]
+                    }}
                     id="our-teams-title"
-                    className="text-2xl sm:text-4xl font-bold text-white text-center mb-12"
+                    className="
+                        text-2xl sm:text-4xl
+                        font-bold text-white
+                        text-center mb-12
+                    "
                 >
                     OUR TEAMS
                 </motion.h2>
 
+                {/* DESKTOP */}
                 <div
-                    className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"
+                    className="
+                        hidden md:grid
+                        grid-cols-2 lg:grid-cols-4
+                        gap-6 justify-items-center
+                    "
                     role="list"
                     aria-label="Hospital team members"
                 >
-                    {teamMembers.slice(0, 4).map((member, index) => (
+
+                    {doctors.slice(0, 4).map((member, index) => (
+
                         <motion.div
-                            key={index}
+                            key={member.id}
                             initial={{ opacity: 0, y: 40 }}
-                            animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                            animate={
+                                cardsInView
+                                    ? { opacity: 1, y: 0 }
+                                    : { opacity: 0, y: 40 }
+                            }
                             transition={{
                                 duration: 0.7,
                                 delay: index * 0.15,
@@ -50,21 +135,35 @@ const OurTeams = () => {
                             }}
                             role="listitem"
                         >
+
                             <TeamCard member={member} />
+
                         </motion.div>
                     ))}
+
                 </div>
 
+                {/* MOBILE */}
                 <div
-                    className="md:hidden flex gap-4 overflow-x-auto pb-6 px-1"
+                    className="
+                        md:hidden flex gap-4
+                        overflow-x-auto
+                        pb-6 px-1
+                    "
                     role="list"
                     aria-label="Hospital team members carousel"
                 >
-                    {teamMembers.map((member, index) => (
+
+                    {doctors.map((member, index) => (
+
                         <motion.div
-                            key={index}
+                            key={member.id}
                             initial={{ opacity: 0, y: 40 }}
-                            animate={cardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                            animate={
+                                cardsInView
+                                    ? { opacity: 1, y: 0 }
+                                    : { opacity: 0, y: 40 }
+                            }
                             transition={{
                                 duration: 0.7,
                                 delay: index * 0.15,
@@ -73,23 +172,40 @@ const OurTeams = () => {
                             className="min-w-[260px]"
                             role="listitem"
                         >
+
                             <TeamCard member={member} />
+
                         </motion.div>
                     ))}
+
                 </div>
 
                 <div className="text-center mt-12">
+
                     <motion.a
                         ref={buttonRef}
                         initial={{ opacity: 0, y: 20 }}
-                        animate={isButtonInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        animate={
+                            isButtonInView
+                                ? { opacity: 1, y: 0 }
+                                : { opacity: 0, y: 20 }
+                        }
+                        transition={{
+                            duration: 0.6,
+                            ease: [0.22, 1, 0.36, 1]
+                        }}
                         href="/doctors"
-                        className="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-md hover:bg-blue-700 transition"
+                        className="
+                            inline-block bg-blue-600
+                            text-white font-semibold
+                            px-8 py-3 rounded-md
+                            hover:bg-blue-700 transition
+                        "
                         aria-label="View all doctors"
                     >
                         View All
                     </motion.a>
+
                 </div>
             </div>
         </section>

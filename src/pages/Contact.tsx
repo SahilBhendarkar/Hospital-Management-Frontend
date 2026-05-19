@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from "axios";
 import { MapPin, Phone, Mail, Calendar, User, MessageSquare } from 'lucide-react';
 import Header from '../components/layout/Header';
 
@@ -19,10 +20,45 @@ const ContactPage = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
-    const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = async (
+        e: React.FormEvent<HTMLFormElement>
+    ) => {
+
         e.preventDefault();
-        console.log('Form submitted:', { service, ...formData });
-        alert('Thank you! Your enquiry has been received.');
+
+        try {
+
+            const enquiryData = {
+                service,
+                ...formData
+            };
+
+            const response = await axios.post(
+                "http://localhost:8080/api/contact",
+                enquiryData
+            );
+
+            console.log("Saved:", response.data);
+
+            alert("Enquiry submitted successfully!");
+
+            // RESET FORM
+            setService("");
+
+            setFormData({
+                name: "",
+                phone: "",
+                email: "",
+                date: "",
+                message: ""
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to submit enquiry");
+        }
     };
 
     return (

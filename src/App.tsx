@@ -15,6 +15,7 @@ import Gallery from "./pages/gallery/Gallery";
 import Dashboard from "./pages/dashboards/Dashboard";
 import HealthCheckupPlans from "./pages/health-plans/HealthCheckupPlans";
 import Contact from "./pages/Contact";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const theme = createTheme({
@@ -54,6 +55,7 @@ function App() {
   return (
     <MantineProvider theme={theme}>
       <BrowserRouter>
+      <ScrollToTop /> 
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />

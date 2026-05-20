@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { useInView } from "framer-motion";
 import TeamCard from "../components/TeamCard";
 import type { Doctor } from "../types/Doctors";
 import api from "../api/axios";
+
+// Create a motion-compatible Link component
+const MotionLink = motion(Link);
 
 const OurTeams = () => {
 
@@ -183,7 +188,7 @@ const OurTeams = () => {
 
                 <div className="text-center mt-12">
 
-                    <motion.a
+                    <MotionLink
                         ref={buttonRef}
                         initial={{ opacity: 0, y: 20 }}
                         animate={
@@ -195,7 +200,7 @@ const OurTeams = () => {
                             duration: 0.6,
                             ease: [0.22, 1, 0.36, 1]
                         }}
-                        href="/doctors"
+                        to="/doctors"
                         className="
                             inline-block bg-blue-600
                             text-white font-semibold
@@ -205,7 +210,7 @@ const OurTeams = () => {
                         aria-label="View all doctors"
                     >
                         View All
-                    </motion.a>
+                    </MotionLink>
 
                 </div>
             </div>

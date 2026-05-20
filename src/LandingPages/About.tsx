@@ -168,7 +168,7 @@ const About: React.FC = () => {
                     <div className="mt-10">
                         <a
                             ref={buttonRef}
-                            href="https://lifelinesurat.com/about-us/"
+                            href="/"
                             className="inline-block bg-blue-600 text-white font-semibold text-lg py-4 px-10 rounded-lg hover:bg-blue-700 shadow-lg"
                             aria-label="Read more about hospital"
                         >

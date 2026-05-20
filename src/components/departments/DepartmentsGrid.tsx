@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import DepartmentCard from "./DepartmentCard";
 import type { Department } from "../../types/Department";
+import api from "../../api/axios";
 
 const DepartmentsGrid = () => {
 
@@ -18,11 +19,11 @@ const DepartmentsGrid = () => {
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:8080/api/departments"
+                const response = await api.get(
+                    "/api/departments"
                 );
 
-                const data = await response.json();
+                const data = response.data;
 
                 setDepartments(data);
 

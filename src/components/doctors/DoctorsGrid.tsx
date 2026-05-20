@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import DoctorCard from "./DoctorCard";
 import type { Doctor } from "../../data/doctors";
+import api from "../../api/axios";
 
 const DoctorsGrid = () => {
 
@@ -17,11 +18,11 @@ const DoctorsGrid = () => {
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:8080/api/doctors"
+                const response = await api.get(
+                    "/api/doctors"
                 );
 
-                const data = await response.json();
+                const data = response.data;
 
                 setDoctors(data);
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import TeamCard from "../components/TeamCard";
 import type { Doctor } from "../types/Doctors";
+import api from "../api/axios";
 
 const OurTeams = () => {
 
@@ -43,11 +44,11 @@ const OurTeams = () => {
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:8080/api/doctors"
+                const response = await api.get(
+                    "/api/doctors"
                 );
 
-                const data = await response.json();
+                const data = response.data;
 
                 setDoctors(data);
 

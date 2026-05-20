@@ -17,6 +17,8 @@ import type { Department }
 import type { Doctor }
     from "../../types/Doctors";
 
+import api from "../../api/axios";
+
 const DepartmentDetails = () => {
 
     const location = useLocation();
@@ -42,12 +44,12 @@ const DepartmentDetails = () => {
 
                 // FETCH DEPARTMENTS
                 const departmentResponse =
-                    await fetch(
-                        "http://localhost:8080/api/departments"
+                    await api.get(
+                        "/api/departments"
                     );
 
                 const departmentsData =
-                    await departmentResponse.json();
+                    departmentResponse.data;
 
                 // FIND CURRENT DEPARTMENT
                 const foundDepartment =
@@ -68,12 +70,12 @@ const DepartmentDetails = () => {
 
                 // FETCH DOCTORS
                 const doctorResponse =
-                    await fetch(
-                        "http://localhost:8080/api/doctors"
+                    await api.get(
+                        "/api/doctors"
                     );
 
                 const doctorsData =
-                    await doctorResponse.json();
+                    doctorResponse.data;
 
                 // FILTER DEPARTMENT DOCTORS
                 const filteredDoctors =

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import axios from "axios";
+import api from "../../api/axios";
 
 import { Eye, EyeOff } from "lucide-react";
 
@@ -191,9 +191,9 @@ const RegisterForm:
             try {
 
                 const response =
-                    await axios.post(
+                    await api.post(
 
-                        "http://localhost:8080/api/auth/register",
+                        "/api/auth/register",
 
                         {
                             role: data.role,

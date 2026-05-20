@@ -14,6 +14,8 @@ import Header from "../../components/layout/Header";
 import type { Doctor }
     from "../../data/doctors";
 
+import api from "../../api/axios";
+
 const DoctorDetails = () => {
 
     const { doctorSlug } = useParams();
@@ -33,12 +35,12 @@ const DoctorDetails = () => {
 
             try {
 
-                const response = await fetch(
-                    "http://localhost:8080/api/doctors"
+                const response = await api.get(
+                    "/api/doctors"
                 );
 
                 const doctorsData =
-                    await response.json();
+                    response.data;
 
                 // FIND MATCHING DOCTOR
                 const foundDoctor =

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from "axios";
+import api from "../api/axios";
 import { MapPin, Phone, Mail, Calendar, User, MessageSquare } from 'lucide-react';
 import Header from '../components/layout/Header';
 
@@ -33,8 +33,8 @@ const ContactPage = () => {
                 ...formData
             };
 
-            const response = await axios.post(
-                "http://localhost:8080/api/contact",
+            const response = await api.post(
+                "/api/contact",
                 enquiryData
             );
 

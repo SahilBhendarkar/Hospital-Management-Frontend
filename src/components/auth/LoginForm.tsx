@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import Button from "../common/Button";
 import Input from "../common/Input";
+import api from "../../api/axios";
 
 const loginSchema = z.object({
     email: z
@@ -99,25 +100,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
             }
 
             // BACKEND API CALL
-            const response = await fetch(
-                "http://localhost:8080/api/auth/login",
+            const response = await api.post(
+                "/api/auth/login",
                 {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        email: data.email,
-                        password: data.password
-                    })
+                    email: data.email,
+                    password: data.password
                 }
             );
 
-            const result =
-                await response.json();
+            const result = response.data;
 
             console.log(result);
 

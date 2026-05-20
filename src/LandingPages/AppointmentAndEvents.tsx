@@ -6,6 +6,7 @@ import event1 from "../assets/images/event1.jpg";
 import event2 from "../assets/images/event2.jpg";
 import event3 from "../assets/images/event3.jpg";
 import { Link } from "react-router-dom";
+import api from "../api/axios";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,18 +75,12 @@ const AppointmentAndEvents = () => {
 
         try {
 
-            const response = await fetch(
-                "http://localhost:8080/api/appointments",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData)
-                }
+            const response = await api.post(
+                "/api/appointments",
+                formData
             );
 
-            if (response.ok) {
+            if (response.status >= 200 && response.status < 300) {
 
                 alert("Appointment Booked Successfully!");
 

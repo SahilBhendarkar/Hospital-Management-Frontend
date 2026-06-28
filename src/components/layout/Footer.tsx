@@ -42,13 +42,10 @@ const Footer: React.FC = () => {
               {[
                 "Home",
                 "About Us",
-                "Available Facilities",
-                "Mediclaim / Cashless Facilities",
-                "Health Checkup Plans",
                 "Departments",
                 "Our Doctor Teams",
                 "Gallery",
-                "Testimonials",
+                "Health Checkup Plans",
                 "Contact Us",
               ].map((item) => (
                 <li key={item}>

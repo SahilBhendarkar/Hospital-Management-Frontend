@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import About from "./LandingPages/About";
 import Departments from "./pages/departments/Departments";
 import DepartmentDetails from "./pages/departments/DepartmentDetails";
 import Doctors from "./pages/doctors/Doctors";
@@ -60,6 +61,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/departments" element={<Departments />} />
           <Route path="/departments/:departmentSlug" element={<DepartmentDetails />} />

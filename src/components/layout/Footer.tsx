@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import hospitalLogo from "../../assets/images/hospital.png";
+import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
   return (
@@ -22,40 +23,43 @@ const Footer: React.FC = () => {
               excellence in all that we do. Our goal is to provide quality
               healthcare services in all specialties to every sector of society.
             </p>
-            <a
-              href="/about-us"
+            <Link
+              to="/about"
               className="inline-block mt-3 text-blue-400 hover:underline text-sm"
               aria-label="Read more about hospital"
             >
               Read More →
-            </a>
+            </Link>
           </div>
 
           <div>
-            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+            <h4 className="text-base sm:text-lg font-semibold mb-4">
               Quick Links
             </h4>
+
             <ul
-              className="space-y-2 text-sm"
+              className="space-y-3 text-sm"
               aria-label="Footer quick links"
             >
               {[
-                "Home",
-                "About Us",
-                "Departments",
-                "Our Doctor Teams",
-                "Gallery",
-                "Health Checkup Plans",
-                "Contact Us",
+                { name: "Home", path: "/" },
+                { name: "Departments", path: "/departments" },
+                { name: "Our Doctor Teams", path: "/doctors" },
+                { name: "Gallery", path: "/gallery" },
+                { name: "Health Checkup Plans", path: "/health-plans" },
+                { name: "Contact Us", path: "/contact" },
               ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="hover:text-blue-400"
-                    aria-label={`Navigate to ${item}`}
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="group inline-flex items-center text-gray-300 hover:text-blue-400 transition-all duration-300"
+                    aria-label={`Navigate to ${item.name}`}
                   >
-                    {item}
-                  </a>
+                    <span className="mr-2 transform transition-transform duration-300 group-hover:translate-x-1">
+                      →
+                    </span>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>

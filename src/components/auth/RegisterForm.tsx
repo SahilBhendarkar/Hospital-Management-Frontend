@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
-
-import api from "../../api/axios";
-
+import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
-
 import { useForm } from "react-hook-form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { z } from "zod";
 
+import api from "../../api/axios";
 import Button from "../common/Button";
-
 import Input from "../common/Input";
 
 interface RegisterFormProps {
@@ -19,520 +14,309 @@ interface RegisterFormProps {
 }
 
 const registerSchema = z.object({
-
-    role: z.enum(
-        ["patient", "doctor"],
-        {
-            message:
-                "Please select Patient or Doctor"
-        }
-    ),
+    role: z.enum(["patient", "doctor"], {
+        message: "Please select Patient or Doctor",
+    }),
 
     name: z
         .string()
-        .min(
-            2,
-            "Name must be at least 2 characters"
-        )
+        .min(2, "Name must be at least 2 characters")
         .max(50),
 
     email: z
         .string()
-        .email(
-            "Enter a valid email address"
-        ),
+        .email("Enter a valid email address"),
 
     phone: z
         .string()
-        .min(
-            10,
-            "Phone number must be 10 digits"
-        )
-        .max(
-            10,
-            "Phone number must be 10 digits"
-        )
-        .regex(
-            /^\d{10}$/,
-            "Phone number must contain exactly 10 digits"
-        ),
+        .regex(/^\d{10}$/, "Phone number must contain exactly 10 digits"),
 
     password: z
         .string()
-        .min(
-            6,
-            "Password must be at least 6 characters"
-        ),
+        .min(6, "Password must be at least 6 characters"),
 
     confirmPassword: z.string(),
 
     dateOfBirth: z
         .string()
-        .min(
-            1,
-            "Date of birth is required"
-        ),
-
+        .min(1, "Date of birth is required"),
 }).refine(
-
-    (data) =>
-        data.password === data.confirmPassword,
-
+    (data) => data.password === data.confirmPassword,
     {
         message: "Passwords don't match",
         path: ["confirmPassword"],
     }
 );
 
-type RegisterFormData =
-    z.infer<typeof registerSchema>;
+type RegisterFormData = z.infer<typeof registerSchema>;
 
-const RegisterForm:
-    React.FC<RegisterFormProps> =
-    ({ onSuccess }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({
+    onSuccess,
+}) => {
 
-        const [
-            showPassword,
-            setShowPassword
-        ] = useState(false);
+    const navigate = useNavigate();
 
-        const [
-            showConfirmPassword,
-            setShowConfirmPassword
-        ] = useState(false);
+    const [showPassword, setShowPassword] =
+        useState(false);
 
-        const {
-            register,
-            handleSubmit,
-            formState: {
-                errors,
-                isSubmitting
-            },
-            reset,
-        } = useForm<RegisterFormData>({
-            resolver:
-                zodResolver(registerSchema),
-            mode: "onBlur",
-        });
+    const [
+        showConfirmPassword,
+        setShowConfirmPassword,
+    ] = useState(false);
 
-        // PHONE VALIDATION
-        useEffect(() => {
+    const {
+        register,
+        handleSubmit,
+        formState: {
+            errors,
+            isSubmitting,
+        },
+        reset,
+    } = useForm<RegisterFormData>({
+        resolver: zodResolver(registerSchema),
+        mode: "onBlur",
+    });
 
-            const phoneInput =
-                document.getElementById(
-                    "register-phone"
-                ) as HTMLInputElement;
+    useEffect(() => {
 
-            if (phoneInput) {
+        const phoneInput =
+            document.getElementById(
+                "register-phone"
+            ) as HTMLInputElement;
 
-                const handleInput =
-                    (e: Event) => {
+        if (!phoneInput) return;
 
-                        const target =
-                            e.target as HTMLInputElement;
+        const handleInput = (e: Event) => {
 
-                        target.value =
-                            target.value
-                                .replace(
-                                    /[^0-9]/g,
-                                    ""
-                                )
-                                .slice(0, 10);
-                    };
+            const target =
+                e.target as HTMLInputElement;
 
-                const handleKeyPress =
-                    (e: KeyboardEvent) => {
-
-                        if (
-                            !/[0-9]/.test(e.key)
-                            &&
-                            e.key !== "Backspace"
-                            &&
-                            e.key !== "Delete"
-                            &&
-                            e.key !== "Tab"
-                        ) {
-
-                            e.preventDefault();
-                        }
-                    };
-
-                phoneInput.addEventListener(
-                    "input",
-                    handleInput
-                );
-
-                phoneInput.addEventListener(
-                    "keypress",
-                    handleKeyPress
-                );
-
-                return () => {
-
-                    phoneInput.removeEventListener(
-                        "input",
-                        handleInput
-                    );
-
-                    phoneInput.removeEventListener(
-                        "keypress",
-                        handleKeyPress
-                    );
-                };
-            }
-
-        }, []);
-
-        // REGISTER API
-        const onSubmit = async (
-            data: RegisterFormData
-        ) => {
-
-            try {
-
-                const response =
-                    await api.post(
-
-                        "/api/auth/register",
-
-                        {
-                            role: data.role,
-                            name: data.name,
-                            email: data.email,
-                            phone: data.phone,
-                            password: data.password,
-                            dateOfBirth:
-                                data.dateOfBirth
-                        }
-                    );
-
-                console.log(
-                    response.data
-                );
-
-                // SUCCESS ALERT
-                alert(response.data);
-
-                // SAVE SESSION
-                localStorage.setItem(
-                    "user",
-
-                    JSON.stringify({
-                        role: data.role,
-                        name: data.name,
-                        email: data.email
-                    })
-                );
-
-                localStorage.setItem(
-                    "isLoggedIn",
-                    "true"
-                );
-
-                // RESET FORM
-                reset();
-
-                // GO TO LOGIN PAGE
-                window.location.href = "/login";
-
-            } catch (error: any) {
-
-                console.error(error);
-
-                alert(
-                    error.response?.data
-                    ||
-                    "Registration Failed"
-                );
-            }
+            target.value = target.value
+                .replace(/[^0-9]/g, "")
+                .slice(0, 10);
         };
 
-        return (
-
-            <form
-                className="space-y-6"
-                onSubmit={handleSubmit(onSubmit)}
-                noValidate
-            >
-
-                {/* ROLE */}
-                <div>
-
-                    <label
-                        className="
-                            block
-                            text-sm
-                            font-bold
-                            mb-3
-                        "
-                    >
-                        Account Type
-                    </label>
-
-                    <div
-                        className="
-                            grid
-                            grid-cols-2
-                            gap-3
-                        "
-                    >
-
-                        {/* PATIENT */}
-                        <label
-                            className="
-                                flex items-center
-                                p-3
-                                border-2
-                                rounded-xl
-                                cursor-pointer
-                                hover:border-blue-400
-                                transition-all
-                                group
-                            "
-                        >
-
-                            <input
-                                type="radio"
-                                value="patient"
-                                {...register("role")}
-                                className="sr-only"
-                            />
-
-                            <div
-                                className="
-                                    w-5 h-5
-                                    border-2
-                                    rounded-full
-                                    mr-3
-                                    flex-shrink-0
-                                "
-                            />
-
-                            <div>
-
-                                <div
-                                    className="
-                                        font-semibold
-                                        text-gray-900
-                                    "
-                                >
-                                    Patient
-                                </div>
-
-                                <div
-                                    className="
-                                        text-xs
-                                        text-gray-600
-                                    "
-                                >
-                                    Book appointments
-                                </div>
-                            </div>
-                        </label>
-
-                        {/* DOCTOR */}
-                        <label
-                            className="
-                                flex items-center
-                                p-3
-                                border-2
-                                rounded-xl
-                                cursor-pointer
-                                hover:border-blue-400
-                                transition-all
-                                group
-                            "
-                        >
-
-                            <input
-                                type="radio"
-                                value="doctor"
-                                {...register("role")}
-                                className="sr-only"
-                            />
-
-                            <div
-                                className="
-                                    w-5 h-5
-                                    border-2
-                                    rounded-full
-                                    mr-3
-                                    flex-shrink-0
-                                "
-                            />
-
-                            <div>
-
-                                <div
-                                    className="
-                                        font-semibold
-                                        text-gray-900
-                                    "
-                                >
-                                    Doctor
-                                </div>
-
-                                <div
-                                    className="
-                                        text-xs
-                                        text-gray-600
-                                    "
-                                >
-                                    Manage patients
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-
-                    {errors.role && (
-
-                        <p
-                            className="
-                                mt-2
-                                text-sm
-                                text-red-600
-                            "
-                        >
-                            {errors.role.message}
-                        </p>
-                    )}
-                </div>
-
-                {/* NAME */}
-                <Input
-                    label="Full Name"
-                    id="register-name"
-                    type="text"
-                    registration={register("name")}
-                    error={errors.name}
-                    placeholder="John Doe"
-                />
-
-                {/* EMAIL */}
-                <Input
-                    label="Email Address"
-                    id="register-email"
-                    type="email"
-                    registration={register("email")}
-                    error={errors.email}
-                    placeholder="john@hospital.com"
-                />
-
-                {/* PHONE */}
-                <Input
-                    label="Phone Number"
-                    id="register-phone"
-                    type="tel"
-                    registration={register("phone")}
-                    error={errors.phone}
-                    placeholder="9876543210"
-                    inputMode="numeric"
-                    pattern="[0-9]{10}"
-                    maxLength={10}
-                />
-
-                {/* DOB */}
-                <Input
-                    label="Date of Birth"
-                    id="register-dob"
-                    type="date"
-                    registration={register("dateOfBirth")}
-                    error={errors.dateOfBirth}
-                />
-
-                {/* PASSWORD */}
-                <Input
-                    label="Password"
-                    id="register-password"
-                    type={
-                        showPassword
-                            ? "text"
-                            : "password"
-                    }
-                    registration={register("password")}
-                    error={errors.password}
-                    icon={
-                        showPassword
-                            ? <EyeOff size={20} />
-                            : <Eye size={20} />
-                    }
-                    onIconClick={() =>
-                        setShowPassword(!showPassword)
-                    }
-                />
-
-                {/* CONFIRM PASSWORD */}
-                <Input
-                    label="Confirm Password"
-                    id="register-confirm-password"
-                    type={
-                        showConfirmPassword
-                            ? "text"
-                            : "password"
-                    }
-                    registration={
-                        register("confirmPassword")
-                    }
-                    error={errors.confirmPassword}
-                    icon={
-                        showConfirmPassword
-                            ? <EyeOff size={20} />
-                            : <Eye size={20} />
-                    }
-                    onIconClick={() =>
-                        setShowConfirmPassword(
-                            !showConfirmPassword
-                        )
-                    }
-                />
-
-                {/* BUTTON */}
-                <Button
-                    type="submit"
-                    label={
-                        isSubmitting
-                            ? "Creating Account..."
-                            : "Create Account"
-                    }
-                    disabled={isSubmitting}
-                    className="
-                        w-full
-                        py-5
-                        rounded-2xl
-                        text-xl
-                        font-bold
-                        text-white
-                        bg-blue-600
-                        hover:bg-blue-700
-                        transition-all
-                    "
-                />
-
-                {/* LOGIN LINK */}
-                <p
-                    className="
-                        text-center
-                        text-sm
-                        text-gray-600
-                    "
-                >
-
-                    Already have an account?{" "}
-
-                    <button
-                        type="button"
-                        onClick={onSuccess}
-                        className="
-                            font-bold
-                            text-blue-600
-                            hover:underline
-                        "
-                    >
-                        Sign In
-                    </button>
-                </p>
-            </form>
+        phoneInput.addEventListener(
+            "input",
+            handleInput
         );
+
+        return () => {
+            phoneInput.removeEventListener(
+                "input",
+                handleInput
+            );
+        };
+
+    }, []);
+
+    const onSubmit = async (
+        data: RegisterFormData
+    ) => {
+
+        try {
+
+            const response =
+                await api.post(
+                    "/api/auth/register",
+                    {
+                        role: data.role,
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone,
+                        password: data.password,
+                        dateOfBirth:
+                            data.dateOfBirth,
+                    }
+                );
+
+            console.log(response.data);
+
+            alert(
+                "Account created successfully! Please sign in."
+            );
+
+            reset();
+
+            onSuccess?.();
+
+            navigate("/login");
+
+        } catch (error: any) {
+
+            console.error(error);
+
+            alert(
+                error?.response?.data ||
+                "Registration Failed"
+            );
+        }
     };
 
+    return (
+        <form
+            className="space-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+        >
+
+            <div>
+                <label className="block text-sm font-bold mb-3">
+                    Account Type
+                </label>
+
+                <div className="grid grid-cols-2 gap-3">
+
+                    <label className="flex items-center p-3 border-2 rounded-xl cursor-pointer hover:border-blue-400 transition-all">
+                        <input
+                            type="radio"
+                            value="patient"
+                            {...register("role")}
+                            className="mr-3"
+                        />
+
+                        <div>
+                            <div className="font-semibold">
+                                Patient
+                            </div>
+
+                            <div className="text-xs text-gray-600">
+                                Book appointments
+                            </div>
+                        </div>
+                    </label>
+
+                    <label className="flex items-center p-3 border-2 rounded-xl cursor-pointer hover:border-blue-400 transition-all">
+                        <input
+                            type="radio"
+                            value="doctor"
+                            {...register("role")}
+                            className="mr-3"
+                        />
+
+                        <div>
+                            <div className="font-semibold">
+                                Doctor
+                            </div>
+
+                            <div className="text-xs text-gray-600">
+                                Manage patients
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                {errors.role && (
+                    <p className="mt-2 text-sm text-red-600">
+                        {errors.role.message}
+                    </p>
+                )}
+            </div>
+
+            <Input
+                label="Full Name"
+                id="register-name"
+                type="text"
+                registration={register("name")}
+                error={errors.name}
+                placeholder="John Doe"
+            />
+
+            <Input
+                label="Email Address"
+                id="register-email"
+                type="email"
+                registration={register("email")}
+                error={errors.email}
+                placeholder="john@example.com"
+            />
+
+            <Input
+                label="Phone Number"
+                id="register-phone"
+                type="tel"
+                registration={register("phone")}
+                error={errors.phone}
+                placeholder="9876543210"
+                maxLength={10}
+            />
+
+            <Input
+                label="Date of Birth"
+                id="register-dob"
+                type="date"
+                registration={register("dateOfBirth")}
+                error={errors.dateOfBirth}
+            />
+
+            <Input
+                label="Password"
+                id="register-password"
+                type={
+                    showPassword
+                        ? "text"
+                        : "password"
+                }
+                registration={register("password")}
+                error={errors.password}
+                icon={
+                    showPassword
+                        ? <EyeOff size={20} />
+                        : <Eye size={20} />
+                }
+                onIconClick={() =>
+                    setShowPassword(
+                        !showPassword
+                    )
+                }
+            />
+
+            <Input
+                label="Confirm Password"
+                id="register-confirm-password"
+                type={
+                    showConfirmPassword
+                        ? "text"
+                        : "password"
+                }
+                registration={register(
+                    "confirmPassword"
+                )}
+                error={errors.confirmPassword}
+                icon={
+                    showConfirmPassword
+                        ? <EyeOff size={20} />
+                        : <Eye size={20} />
+                }
+                onIconClick={() =>
+                    setShowConfirmPassword(
+                        !showConfirmPassword
+                    )
+                }
+            />
+
+            <Button
+                type="submit"
+                label={
+                    isSubmitting
+                        ? "Creating Account..."
+                        : "Create Account"
+                }
+                disabled={isSubmitting}
+                className="w-full py-5 rounded-2xl text-xl font-bold text-white bg-blue-600 hover:bg-blue-700"
+            />
+
+            <p className="text-center text-sm text-gray-600">
+                Already have an account?{" "}
+
+                <Link
+                    to="/login"
+                    className="font-bold text-blue-600 hover:underline"
+                >
+                    Sign In
+                </Link>
+            </p>
+        </form>
+    );
+}
 export default RegisterForm;

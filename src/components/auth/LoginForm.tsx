@@ -248,19 +248,14 @@ const LoginForm: React.FC<LoginFormProps> = ({
             />
 
             {/* CREATE ACCOUNT */}
+            {/* CREATE ACCOUNT */}
             <p className="text-center text-sm text-gray-600">
-
                 Don't have an account?{" "}
 
                 <button
                     type="button"
-                    onClick={() => {
-
-                        onSuccess?.();
-
-                        setIsRegisterModalOpen(true);
-                    }}
-                    className="text-black font-bold"
+                    onClick={() => navigate("/register")}
+                    className="font-bold text-blue-600 hover:underline"
                     disabled={loading}
                 >
                     Create Account
